@@ -19,11 +19,16 @@
       "matches": [
         "https://web.whatsapp.com/"
       ],
-	"js": ["inject.js"]
+	    "js": [ 
+        "inject.js"
+      ]
     }
   ],
   "web_accessible_resources": [
+      "jquery.js",
+      "mustache.js",
       "wapi.js",
+      "ui.js",
       "defense.js",
       "foward.js",
       "run.js"
