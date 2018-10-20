@@ -42,7 +42,11 @@ Defense.prototype.block = function(chatId, reason) {
     if (chatId.match(/-/)) {
 	return;
     }
+    if (window.localStorage['whiteList_' + chatId]) {
+	return;
+    }
     window.WAPI.contactBlock(chatId, function(done) {
+	window.localStorage['whiteList_' + chatId] = true;
 	console.log('contato bloqueado (' + reason + ')' + chatId);
     });
 }
