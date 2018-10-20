@@ -15,5 +15,6 @@ function inject(script) {
 window.onload = function() {
     inject('wapi.js');
     inject('defense.js');
+    inject('foward.js');
     inject('run.js');
 }

@@ -25,6 +25,7 @@
   "web_accessible_resources": [
       "wapi.js",
       "defense.js",
+      "foward.js",
       "run.js"
   ]
 }
