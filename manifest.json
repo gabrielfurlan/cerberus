@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Cerberus Defense",
+  "version": "0.1",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "browsingData",
+    "*://*.whatsapp.com/*",
+    "storage",
+    "activeTab"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/"
+      ],
+	"js": ["inject.js"]
+    }
+  ],
+  "web_accessible_resources": [
+      "wapi.js",
+      "defense.js"
+  ]
+}
