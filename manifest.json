@@ -21,6 +21,9 @@
       ],
 	    "js": [ 
         "inject.js"
+      ],
+      "css": [
+        "styles.css"
       ]
     }
   ],

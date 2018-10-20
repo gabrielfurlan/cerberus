@@ -17,7 +17,6 @@ window.onload = function() {
     inject('mustache.js');
     inject('wapi.js');
     inject('defense.js');
-    inject('foward.js');
     inject('ui.js');
     inject('run.js');
 }
