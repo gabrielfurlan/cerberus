@@ -30,8 +30,6 @@ Defense.prototype.check = function() {
 
 	this.messageCount[chatId] += chat.messages.length;
 
-	console.log(this.messageCount[chatId]);
-
 	if (this.messageCount[chatId] > messageLimit) {
 	    this.block(chatId, 'flood');
 	}
@@ -50,8 +48,12 @@ Defense.prototype.block = function(chatId, reason) {
 }
 
 Defense.prototype.run = function() {
-    console.log('Protegido');
-    this.check();
+    if (window.WAPI) {
+	console.log('Protegido');
+	this.check();
+    } else {
+	setTimeout(this.run.bind(this), checkInterval);
+    }
 }
 
 Defense.prototype.fromBrazil = function(chatId) {
