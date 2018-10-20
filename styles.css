@@ -79,6 +79,11 @@
 	background-color: #55efc4;
 }
 
+#send > ul {
+	height: 300px;
+	overflow: auto;
+}
+
 @keyframes down {
 	from {
 		-webkit-transform: translateY(-1000px);

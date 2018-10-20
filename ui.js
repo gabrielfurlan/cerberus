@@ -33,38 +33,12 @@ UI.prototype.run = function () {
   s.type = 'x-tmpl-mustache';
   s.text = `    
   <section id='cib-modal'>
-      <h1>{{ name }}, procure seu conteúdo!</h1>
+    <h1>{{ name }}, procure seu conteúdo!</h1>
     <form id="cib-search">
       <input onkeydown="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
       <button type="submit">GO!</button>
     </form>
-  </section>
-`;
-
-  document.body.appendChild(d);
-  document.body.appendChild(s);
-
-    var t = $('#template').html();
-    Mustache.parse(t);
-    var rendered = Mustache.render(t, r);
-    $('#cib-target').html(rendered);
-
-    $('#cib-search').submit(function(e) {
-      e.preventDefault();
-      console.log('buscou');
-    });
-
-    $('#send').submit(function(e) {
-      e.preventDefault();
-      console.log('enviou');
-    });
-
-    console.log("Carregamento UI Finalizada")
-  }, 3000);
-}
-
-
-{/*<h2>Resultados</h2>
+    <h2>Resultados</h2>
     <form id="choose">
       <ul>
         {{#images}}
@@ -88,7 +62,37 @@ UI.prototype.run = function () {
           <label htmlFor=send-message-{{contact.id._serialized}}>
             {{formattedName}} - {{id._serialized}}
           </label>
-      </li>
-      {{/contacts}}
-    </ul>
-  </form>*/}
+        </li>
+        {{/contacts}}
+      </ul>
+      <button type="submit">enviar</button>
+    </form>
+  </section>
+`;
+
+  document.body.appendChild(d);
+  document.body.appendChild(s);
+
+    var t = $('#template').html();
+    Mustache.parse(t);
+    var rendered = Mustache.render(t, r);
+    $('#cib-target').html(rendered);
+
+    $('#cib-search').submit(function(e) {
+      e.preventDefault();
+      console.log('buscou');
+    });
+
+    $('#choose').submit(function(e) {
+      e.preventDefault();
+      console.log('escolheu');
+    });
+
+    $('#send').submit(function(e) {
+      e.preventDefault();
+      console.log(jQuery(e.currentTarget).find(":checked"));
+    });
+
+    console.log("Carregamento UI Finalizada")
+  }, 3000);
+}
