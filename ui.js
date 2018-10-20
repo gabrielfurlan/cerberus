@@ -6,12 +6,9 @@ function UI() { }
 
 function handleChangeSearchInput(e) {
   const value = e.value;
-
   if(value.length) {
     const modal = document.querySelector('#cib-modal');
     modal.classList.add('-active');
-
-    
   }
 }
 
@@ -41,8 +38,7 @@ UI.prototype.run = function () {
       <input onkeydown="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
       <button type="submit">GO!</button>
     </form>
-    
-</section>
+  </section>
 `;
 
   document.body.appendChild(d);
