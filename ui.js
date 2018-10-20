@@ -5,7 +5,14 @@ function UI() { }
 // }
 
 function handleChangeSearchInput(e) {
-  console.log("e: ", [e]);
+  const value = e.value;
+
+  if(value.length) {
+    const modal = document.querySelector('#cib-modal');
+    modal.classList.add('-active');
+
+    
+  }
 }
 
 UI.prototype.run = function () {
@@ -30,11 +37,38 @@ UI.prototype.run = function () {
   s.text = `    
   <section id='cib-modal'>
       <h1>{{ name }}, procure seu conteúdo!</h1>
-    <form id="search">
+    <form id="cib-search">
       <input onkeydown="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
       <button type="submit">GO!</button>
     </form>
-    <h2>Resultados</h2>
+    
+</section>
+`;
+
+  document.body.appendChild(d);
+  document.body.appendChild(s);
+
+    var t = $('#template').html();
+    Mustache.parse(t);
+    var rendered = Mustache.render(t, r);
+    $('#cib-target').html(rendered);
+
+    $('#cib-search').submit(function(e) {
+      e.preventDefault();
+      console.log('buscou');
+    });
+
+    $('#send').submit(function(e) {
+      e.preventDefault();
+      console.log('enviou');
+    });
+
+    console.log("Carregamento UI Finalizada")
+  }, 3000);
+}
+
+
+{/*<h2>Resultados</h2>
     <form id="choose">
       <ul>
         {{#images}}
@@ -61,41 +95,4 @@ UI.prototype.run = function () {
       </li>
       {{/contacts}}
     </ul>
-  </form>
-</section>
-`;
-
-  document.body.appendChild(d);
-  document.body.appendChild(s);
-
-    var t = $('#template').html();
-    Mustache.parse(t);
-    var rendered = Mustache.render(t, r);
-    $('#cib-target').html(rendered);
-
-    $('#search').submit(function(e) {
-      e.preventDefault();
-      console.log('buscou');
-    });
-
-    $('#send').submit(function(e) {
-      e.preventDefault();
-      console.log('enviou');
-    });
-
-    console.log("Carregamento UI Finalizada")
-  }, 3000);
-}
-
-
-// <form id="send">
-//   <ul>
-//   {{#images}}
-//     <li>
-//       <input type="checkbox" id="meme_{{name}}" name="meme[]" value="{{name}}" />
-//       <img width=100 heigth=100 src='{{url}}' />
-//     </li>
-//   {{/images}}
-//   </ul>
-//   <button type="submit">enviar</button>
-// </form>
+  </form>*/}

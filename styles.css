@@ -39,6 +39,11 @@
 	animation-duration: 0.2s;
 }
 
+#cib-target > #cib-modal.-active {
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
 /* ======== search title =========*/
 #cib-target > #cib-modal > h1 {
 	width: 100%;
@@ -47,12 +52,12 @@
 }
 
 /* ======== search form =========*/
-#cib-target > #cib-modal > form#search {
+#cib-target > #cib-modal > form#cib-search {
 	width: 100%;
 	max-width: 450px;
 }
 
-#cib-target > #cib-modal > form#search > input#term {
+#cib-target > #cib-modal > form#cib-search > input#term {
 	width: calc(100% - 54px);
 	height: 40px;
 	border: solid 1px #2d3436;	
@@ -61,7 +66,7 @@
 	padding: 0px 10px;
 }
 
-#cib-target > #cib-modal > form#search > button {
+#cib-target > #cib-modal > form#cib-search > button {
 	width: 50px;
 	height: 40px;
 	color: #fff;
@@ -70,7 +75,7 @@
 	border-radius: 0px 4px 4px 0px;
 }
 
-#cib-target > #cib-modal > form#search > button:hover {
+#cib-target > #cib-modal > form#cib-search > button:hover {
 	background-color: #55efc4;
 }
 
