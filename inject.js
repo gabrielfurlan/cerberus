@@ -13,7 +13,7 @@ function inject(script) {
 }
 
 window.onload = function() {
-    console.log('loaded');
     inject('wapi.js');
     inject('defense.js');
+    inject('run.js');
 }

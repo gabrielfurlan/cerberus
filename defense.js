@@ -1,28 +1,65 @@
-function check() {
-    const isFromBrazil = function(chat) {
-	const chatId = chat.id.user;
-	return chatId.match(/^55/);
-    };
+var checkInterval = 200;
+var messageLimit = 10;
+var limitResetTime = 5000;
 
-    const isHigherThanLimit = chat => chat.unread > 10
+function Defense() {
+    this.last = {};
+    this.messageCount = {};
+}
+
+Defense.prototype.check = function() {
+    //const isHigherThanLimit = chat => chat.unread > 10;
 
     const chats = window.WAPI.getUnreadMessages();
     chats.forEach(function(chat) {
-	if (!isFromBrazil(chat)) {
-            window.WAPI.contactBlock(chat.id._serialized, function(done) {
-		console.log('contato bloqueado: internacional' + chat.id._serialized);
-            });
+	var chatId = chat.id._serialized;
+
+	if (!this.fromBrazil(chatId)) {
+	    this.block(chatId, 'gringo');
 	}
 
-	if (isHigherThanLimit(chat)) {
-            window.WAPI.contactBlock(chat.id._serialized, function(done) {
-		console.log('contato bloqueado: excedeu limite' + chat.id._serialized);
-            });
+	if (!this.messageCount[chatId]) {
+	    this.messageCount[chatId] = 0;
+	}			       
+
+	var now = this.now();
+	if (now - this.last[chatId] > limitResetTime) {
+	    this.messageCount[chatId] = 0;
+	    this.last[chatId] = now;
 	}
 
-    });
+	this.messageCount[chatId] += chat.messages.length;
 
-    setTimeout(check, 200);
+	console.log(this.messageCount[chatId]);
+
+	if (this.messageCount[chatId] > messageLimit) {
+	    this.block(chatId, 'flood');
+	}
+    }.bind(this));
+
+    setTimeout(this.check.bind(this), checkInterval);
 }
 
-check();
+Defense.prototype.block = function(chatId, reason) {
+    if (chatId.match(/-/)) {
+	return;
+    }
+    window.WAPI.contactBlock(chatId, function(done) {
+	console.log('contato bloqueado (' + reason + ')' + chatId);
+    });
+}
+
+Defense.prototype.run = function() {
+    console.log('Protegido');
+    this.check();
+}
+
+Defense.prototype.fromBrazil = function(chatId) {
+    return chatId.match(/^55/);
+};
+
+Defense.prototype.now = function() {
+    var date = new Date();
+    return date.getTime() + date.getMilliseconds() / 1000;
+}
+
