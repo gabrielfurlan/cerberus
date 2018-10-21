@@ -15,6 +15,7 @@ function inject(script) {
 window.onload = function() {
     inject('jquery.js');
     inject('mustache.js');
+    inject('list.js');
     inject('wapi.js');
     inject('defense.js');
     inject('ui.js');
