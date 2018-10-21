@@ -40,9 +40,7 @@ function handleChangeSearchInput(e) {
 function _handleSelectImage(e) {
   const value = e.value;
   SELECTED_IMAGE = value;
-  console.log('SELECTED_IMAGE', SELECTED_IMAGE)
   const contacts = document.querySelector('#cib-send');
-  console.log('contacts', contacts)
   contacts.classList.remove('-hide')
   contacts.classList.add('-show')
 }
@@ -129,7 +127,7 @@ UI.prototype.run = function () {
             {{#images}}
             <li class='choose-item'>
               <input class='meme-check-input' onclick="_handleSelectImage(this)" type="radio" id="meme_{{id}}" name="meme[]" value="{{id}}" />
-              <label for="meme_{{id}}" ><img src='data:image/jpg;base64,{{thumb_base64}}' /></label>
+              <label for="meme_{{id}}" ><img src='{{thumb_base64}}' /></label>
             </li>
             {{/images}}
           </ul>
@@ -175,7 +173,7 @@ UI.prototype.run = function () {
 
     $('#choose').submit(function(e) {
       e.preventDefault();
-      const i = jQuery(e.currentTarget).find(":checked").parent().find("img");
+      window.imageSelected = jQuery(e.currentTarget).find(":checked").parent().find("img");
 
       console.log('escolheu');
     });
@@ -183,13 +181,23 @@ UI.prototype.run = function () {
     $('#cib-send').submit(function(e) {
       e.preventDefault();
 
+<<<<<<< HEAD
       
       console.log(filteredContacts);
       console.log(jQuery(e.currentTarget).find(":checked"));
+=======
+      const c = jQuery(e.currentTarget).find(":checked");
+      for(let x = 0; x < c.length; x++) {
+        $.get( "https://ursal.dev.org.br/api/memes/" + SELECTED_IMAGE + '/', function( data ) {
+          const n = c[x].id.replace("send-message-", "");
+          window.WAPI.sendImage(data, n, "imagename", "", console.log)
+          console.log("enviou");
+        });
+      };
+>>>>>>> Adiciona fluxo completo de envio de mensagem
     });
 
     console.log("Carregamento UI Finalizada")
-    console.log(r);
   });
   }, 3000);
 }
