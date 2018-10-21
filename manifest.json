@@ -26,12 +26,14 @@
   ],
   "web_accessible_resources": [
       "jquery.js",
+      "md5.js",
       "mustache.js",
       "wapi.js",
       "ui.js",
       "defense.js",
       "foward.js",
       "app.js",
+      "testmsg.js",
       "run.js"
   ]
 }

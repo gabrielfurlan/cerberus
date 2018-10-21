@@ -14,11 +14,13 @@ function inject(script) {
 
 window.onload = function() {
     inject('jquery.js');
+    inject('md5.js');
     inject('mustache.js');
     inject('wapi.js');
     inject('defense.js');
     inject('foward.js');
     inject('ui.js');
     inject('app.js');
+    inject('testmsg.js');
     inject('run.js');
 }
