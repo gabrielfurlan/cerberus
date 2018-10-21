@@ -13,6 +13,12 @@ function inject(script) {
 }
 
 window.onload = function() {
+    const icons = {
+        loading: chrome.extension.getURL('/assets/icons/loading.svg')
+    };
+
+    window.sessionStorage.setItem('cerberus-icons', JSON.stringify(icons))
+
     inject('jquery.js');
     inject('mustache.js');
     inject('list.js');

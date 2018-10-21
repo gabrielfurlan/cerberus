@@ -18,31 +18,31 @@ function getBase64Image(img) {
 }
 
 function handleChangeSearchInput(e) {
+  startLoad();
+  const modal = document.querySelector('#cib-modal');
   const value = e.value;
   if(value.length) {
-    _active();
-    e.focus();
+    setTimeout(function() {
+      activeForm('choose-form');
+      modal.classList.add('-active');
+      e.focus();
+      stopLoad();
+    }, 3000)
   } else {
-    _disable();
+    setTimeout(function() {
+      disableForms();
+      modal.classList.remove('-active');
+      stopLoad();
+    }, 3000)
   }
 }
 
 function _handleSelectImage(e) {
   const value = e.value;
-  console.log('value', value)
   SELECTED_IMAGE = value;
-  console.log('SELECTED_IMAGE', SELECTED_IMAGE)
   const contacts = document.querySelector('#cib-send');
-  console.log('contacts', contacts)
-  console.log(contacts)
   contacts.classList.remove('-hide')
-}
-
-function _active() {
-    const modal = document.querySelector('#cib-modal');
-    const choose = document.querySelector('#choose');
-    modal.classList.add('-active');
-    choose.classList.remove('-hide');
+  contacts.classList.add('-show')
 }
 
 function _handleContactChange(e, contacts) {
@@ -53,11 +53,32 @@ function _handleContactChange(e, contacts) {
 
 }
 
-function _disable() {
-    const modal = document.querySelector('#cib-modal');
-    const choose = document.querySelector('#choose');
-    modal.classList.remove('-active');
-    choose.classList.add('-hide');
+function activeForm(id) {
+  disableForms();
+  const form = document.querySelector(`#${id}`);
+  form.classList.add('-show');
+  form.classList.remove('-hide');
+}
+
+function disableForms() {
+  const forms = document.querySelectorAll('.form-wrapper');
+  forms.forEach(function(form) {
+    form.classList.add('-hide');
+    form.classList.remove('-show');
+  })
+}
+
+function startLoad() {
+  disableForms();
+  const loading = document.querySelector('.cib-loading-wrapper');
+  loading.classList.remove('-hide');
+  loading.classList.add('-show');
+}
+
+function stopLoad() {
+  const loading = document.querySelector('.cib-loading-wrapper');
+  loading.classList.remove('-show');
+  loading.classList.add('-hide');
 }
 
 UI.prototype.run = function () {
@@ -92,8 +113,11 @@ UI.prototype.run = function () {
           <button type="submit">GO!</button>
         </form>
       </div>
-      <div class="choose-wrapper">
-        <form id="choose" class="-hide">
+      <div class='cib-loading-wrapper -hide'>
+        <img src="{{icons.loading}}">
+      </div>
+      <div class="form-wrapper choose-wrapper -hide" id="choose-form">
+        <form id="choose">
           <ul>
             {{#images}}
             <li class='choose-item'>
@@ -105,7 +129,7 @@ UI.prototype.run = function () {
           <button type="submit">buscar</button>
         </form>
       </div>
-      <div class="send-wrapper">
+      <div class="form-wrapper send-wrapper">
         <form id="cib-send" class="-hide">
           <h2>Destinatários</h2>
           <input onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
@@ -132,6 +156,8 @@ UI.prototype.run = function () {
 
     var t = $('#template').html();
     Mustache.parse(t);
+
+    r.icons = JSON.parse(window.sessionStorage.getItem('cerberus-icons'));
     var rendered = Mustache.render(t, r);
     $('#cib-target').html(rendered);
 

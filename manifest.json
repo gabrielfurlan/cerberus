@@ -34,6 +34,7 @@
       "wapi.js",
       "ui.js",
       "defense.js",
-      "run.js"
+      "run.js",
+      "assets/*"
   ]
 }
