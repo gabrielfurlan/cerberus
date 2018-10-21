@@ -148,3 +148,8 @@ UI.prototype.run = function () {
     console.log("Carregamento UI Finalizada")
   }, 3000);
 }
+
+
+function render() {
+  
+}
