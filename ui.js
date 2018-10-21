@@ -1,3 +1,5 @@
+let SELECTED_IMAGE = undefined;
+
 function UI() { }
 
 function getBase64Image(img) {
@@ -34,6 +36,10 @@ function _disable() {
     choose.classList.add('-hide');
 }
 
+function _handleSelectImage(e) {
+  SELECTED_IMAGE = e.value;
+}
+
 UI.prototype.run = function () {
   setTimeout( function () {
   const d = document.createElement('div');
@@ -53,9 +59,23 @@ UI.prototype.run = function () {
   const r = {
     "name": "Luke",
     "images": [
-      { name: '1', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
-      { name: '2', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
-      { name: '3', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' }
+      { name: '1', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '2', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
+      { name: '3', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '4', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '5', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
+      { name: '6', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
+      { name: '7', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '8', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
+      { name: '9', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
+      { name: '10', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '11', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '12', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '13', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '14', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
+      { name: '15', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
+      { name: '16', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
+      { name: '17', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
     ],
     "contacts": c
   };
@@ -73,7 +93,7 @@ UI.prototype.run = function () {
       <ul>
         {{#images}}
         <li class='choose-item'>
-          <input class='meme-check-input' type="radio" id="meme_{{name}}" name="meme[]" value="{{url}}" />
+          <input class='meme-check-input' onclick="_handleSelectImage(this)" type="radio" id="meme_{{name}}" name="meme[]" value="{{url}}" />
           <label for="meme_{{name}}" ><img src='{{url}}' /></label>
         </li>
         {{/images}}

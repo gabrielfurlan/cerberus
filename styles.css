@@ -16,13 +16,14 @@
     background-color: rgba(0, 0, 0, .8);
 		text-align: center;
 		padding: 60px;
+		overflow-y: auto;
 }
 
 #cib-target > #cib-modal {
 	text-align: left;
 	width: 100%;
 	max-width: 768px;
-	height: 480px;
+	min-height: 480px;
 	display: -webkit-inline-box;   
 	display: -moz-inline-box;
   display: -ms-inline-flexbox;
