@@ -40,17 +40,24 @@ function handleChangeSearchInput(e) {
 function _handleSelectImage(e) {
   const value = e.value;
   SELECTED_IMAGE = value;
+  console.log('SELECTED_IMAGE', SELECTED_IMAGE)
   const contacts = document.querySelector('#cib-send');
+  console.log('contacts', contacts)
   contacts.classList.remove('-hide')
   contacts.classList.add('-show')
 }
 
 function _handleContactChange(e, contacts) {
+  const value = e.value;
+  const items = $('#cib-contact-list li');
 
-  console.log(e);
-
-  // contacts.map(c => console.log(c));
-
+  items.map(function (i) {
+    if (items[i].outerText.toLowerCase().indexOf(value.toLowerCase()) === -1) {
+      items[i].classList.add('-hide')
+    } else {
+      items[i].classList.remove('-hide')
+    }
+  });
 }
 
 function activeForm(id) {
@@ -126,22 +133,21 @@ UI.prototype.run = function () {
             </li>
             {{/images}}
           </ul>
-          <button type="submit">buscar</button>
         </form>
       </div>
-      <div class="form-wrapper send-wrapper">
+      <div class="send-wrapper">
         <form id="cib-send" class="-hide">
           <h2>Destinatários</h2>
           <input onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
-          <ul>
+          <ul id='cib-contact-list'>
             {{#contacts}}
-            <li key={{id._serialized}}>
+            <li key={{id._serialized}} data-name={{name}}>
               <input
                 type="checkbox"
-                id=send-message-{{id._serialized}}
+                id={{id._serialized}}
               />
-              <label htmlFor=send-message-{{contact.id._serialized}}>
-                {{formattedName}} - {{id._serialized}}
+              <label for='{{id._serialized}}'>
+                {{formattedName}}
               </label>
             </li>
             {{/contacts}}
@@ -149,7 +155,8 @@ UI.prototype.run = function () {
           <button type="submit">enviar</button>
         </form>
       </div>
-    </section>`;
+    </section>
+    `;
 
     document.body.appendChild(d);
     document.body.appendChild(s);
@@ -176,13 +183,7 @@ UI.prototype.run = function () {
     $('#cib-send').submit(function(e) {
       e.preventDefault();
 
-      const value = $('#contactInput')[0].value
-      filteredContacts = c.filter(function (c) {
-        return (
-          c.name &&
-          c.name.indexOf(value) !== -1
-        )
-      });
+      
       console.log(filteredContacts);
       console.log(jQuery(e.currentTarget).find(":checked"));
     });
