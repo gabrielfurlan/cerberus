@@ -58,7 +58,7 @@ UI.prototype.run = function () {
       <ul>
         {{#images}}
         <li class='choose-item'>
-          <input class='meme-check-input' type="radio" id="meme_{{name}}" name="meme[]" value="{{name}}" />
+          <input class='meme-check-input' onclick="alert('aaa')" type="radio" id="meme_{{name}}" name="meme[]" value="{{url}}" />
           <label for="meme_{{name}}" ><img src='{{url}}' /></label>
         </li>
         {{/images}}
