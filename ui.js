@@ -48,75 +48,65 @@ UI.prototype.run = function () {
   const c = window.WAPI.getAllContacts();
 
   // Carrega json da api
-  // const x = new XMLHttpRequest();
-  // const u = 'https://jsonplaceholder.typicode.com/posts';
-  // x.open("GET", u);
-  // x.send();
-  // x.onreadystatechange=(e)=>{
-  //   console.log(x.responseText)
-  // }
+  let i = [];
+  const x = new XMLHttpRequest();
+  const u = 'https://ursal.dev.org.br/api/memes/';
+  x.open("GET", u);
+  x.send();
+  x.onreadystatechange=(e)=>{
+    i = x.responseText
+  }
   
   const r = {
     "name": "Luke",
-    "images": [
-      { name: '1', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '2', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
-      { name: '3', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '4', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '5', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
-      { name: '6', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
-      { name: '7', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '8', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
-      { name: '9', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
-      { name: '10', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '11', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '12', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '13', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '14', url: 'https://www.obrasilfelizdenovo.com/wp-content/themes/bootstrap-basic/img/PROPOSTAS_TOPO.jpg' },
-      { name: '15', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/haddad-futuro.jpg' },
-      { name: '16', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
-      { name: '17', url: 'https://www.obrasilfelizdenovo.com/wp-content/uploads/2018/10/bolsonaro-cristao-honesto-patriota.jpg' },
-    ],
+    "images": i,
     "contacts": c
   };
+  console.log(r);
   const s = document.createElement('script');
   s.id = 'template';
   s.type = 'x-tmpl-mustache';
   s.text = `    
   <section id='cib-modal'>
-    <h1>{{ name }}, procure seu conteúdo!</h1>
-    <form id="cib-search">
-      <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
-      <button type="submit">GO!</button>
-    </form>
-    <form id="choose" class="-hide">
-      <ul>
-        {{#images}}
-        <li class='choose-item'>
-          <input class='meme-check-input' onclick="_handleSelectImage(this)" type="radio" id="meme_{{name}}" name="meme[]" value="{{url}}" />
-          <label for="meme_{{name}}" ><img src='{{url}}' /></label>
-        </li>
-        {{/images}}
-      </ul>
-      <button type="submit">buscar</button>
-    </form>
-    <h2>Destinatários</h2>
-    <form id="send">
-      <ul>
-        {{#contacts}}
-        <li key={{id._serialized}}>
-          <input
-            type="checkbox"
-            id=send-message-{{id._serialized}}
-          />
-          <label htmlFor=send-message-{{contact.id._serialized}}>
-            {{formattedName}} - {{id._serialized}}
-          </label>
-        </li>
-        {{/contacts}}
-      </ul>
-      <button type="submit">enviar</button>
-    </form>
+    <div class="search-wrapper">
+      <h1>{{ name }}, procure seu conteúdo!</h1>
+      <form id="cib-search">
+        <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
+        <button type="submit">GO!</button>
+      </form>
+    </div>
+    <div class="choose-wrapper">
+      <form id="choose" class="-hide">
+        <ul>
+          {{#images}}
+          <li class='choose-item'>
+            <input class='meme-check-input' onclick="_handleSelectImage(this)" type="radio" id="meme_{{name}}" name="meme[]" value="{{url}}" />
+            <label for="meme_{{name}}" ><img src='{{url}}' /></label>
+          </li>
+          {{/images}}
+        </ul>
+        <button type="submit">buscar</button>
+      </form>
+    </div>
+    <div class="send-wrapper">
+      <h2>Destinatários</h2>
+      <form id="send">
+        <ul>
+          {{#contacts}}
+          <li key={{id._serialized}}>
+            <input
+              type="checkbox"
+              id=send-message-{{id._serialized}}
+            />
+            <label htmlFor=send-message-{{contact.id._serialized}}>
+              {{formattedName}} - {{id._serialized}}
+            </label>
+          </li>
+          {{/contacts}}
+        </ul>
+        <button type="submit">enviar</button>
+      </form>
+    </div>
   </section>
 `;
 
@@ -136,7 +126,7 @@ UI.prototype.run = function () {
     $('#choose').submit(function(e) {
       e.preventDefault();
       const i = jQuery(e.currentTarget).find(":checked").parent().find("img");
-      var base64 = getBase64Image(i[0]);
+
       console.log('escolheu');
     });
 
