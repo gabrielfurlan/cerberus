@@ -181,11 +181,6 @@ UI.prototype.run = function () {
     $('#cib-send').submit(function(e) {
       e.preventDefault();
 
-<<<<<<< HEAD
-      
-      console.log(filteredContacts);
-      console.log(jQuery(e.currentTarget).find(":checked"));
-=======
       const c = jQuery(e.currentTarget).find(":checked");
       for(let x = 0; x < c.length; x++) {
         $.get( "https://ursal.dev.org.br/api/memes/" + SELECTED_IMAGE + '/', function( data ) {
@@ -194,7 +189,6 @@ UI.prototype.run = function () {
           console.log("enviou");
         });
       };
->>>>>>> Adiciona fluxo completo de envio de mensagem
     });
 
     console.log("Carregamento UI Finalizada")
