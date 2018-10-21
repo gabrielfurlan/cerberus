@@ -45,11 +45,7 @@ Defense.prototype.block = function(chatId, reason) {
 }
 
 Defense.prototype.run = function () {
-    if (window.WAPI) {
-	console.log('Protegido');
-    } else {
-	setTimeout(this.run.bind(this), checkInterval);
-    }
+    console.log('Protegido');
 }
 
 Defense.prototype.fromBrazil = function (chatId) {
@@ -57,7 +53,7 @@ Defense.prototype.fromBrazil = function (chatId) {
 };
 
 Defense.prototype.now = function () {
-	var date = new Date();
-	return date.getTime() + date.getMilliseconds() / 1000;
+    var date = new Date();
+    return date.getTime();
 }
 

@@ -22,6 +22,10 @@ App.prototype.check = function () {
 }
 
 App.prototype.run = function() {
+    if (!window.WAPI) {
+	setTimeout(this.run.bind(this), 100);
+	return;
+    }
     this.modules.forEach(function(module) {
 	if (module.run) {
 	    module.run();
