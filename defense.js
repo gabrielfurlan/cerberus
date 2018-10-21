@@ -3,39 +3,32 @@ var messageLimit = 10;
 var limitResetTime = 5000;
 
 function Defense() {
-	this.last = {};
-	this.messageCount = {};
+    this.last = {};
+    this.messageCount = {};
 }
 
-Defense.prototype.check = function () {
-	//const isHigherThanLimit = chat => chat.unread > 10;
+Defense.prototype.onNewMessages = function (chat) {
+    var chatId = chat.id._serialized;
 
-	const chats = window.WAPI.getUnreadMessages();
-	chats.forEach(function (chat) {
-		var chatId = chat.id._serialized;
+    if (!this.fromBrazil(chatId)) {
+	this.block(chatId, 'gringo');
+    }
 
-		if (!this.fromBrazil(chatId)) {
-			this.block(chatId, 'gringo');
-		}
+    if (!this.messageCount[chatId]) {
+	this.messageCount[chatId] = 0;
+    }
 
-		if (!this.messageCount[chatId]) {
-			this.messageCount[chatId] = 0;
-		}
+    var now = this.now();
+    if (now - this.last[chatId] > limitResetTime) {
+	this.messageCount[chatId] = 0;
+	this.last[chatId] = now;
+    }
 
-		var now = this.now();
-		if (now - this.last[chatId] > limitResetTime) {
-			this.messageCount[chatId] = 0;
-			this.last[chatId] = now;
-		}
+    this.messageCount[chatId] += chat.messages.length;
 
-		this.messageCount[chatId] += chat.messages.length;
-
-		if (this.messageCount[chatId] > messageLimit) {
-			this.block(chatId, 'flood');
-		}
-	}.bind(this));
-
-	setTimeout(this.check.bind(this), checkInterval);
+    if (this.messageCount[chatId] > messageLimit) {
+	this.block(chatId, 'flood');
+    }
 }
 
 Defense.prototype.block = function(chatId, reason) {
@@ -52,12 +45,11 @@ Defense.prototype.block = function(chatId, reason) {
 }
 
 Defense.prototype.run = function () {
-	if (window.WAPI) {
-		console.log('Protegido');
-		this.check();
-	} else {
-		setTimeout(this.run.bind(this), checkInterval);
-	}
+    if (window.WAPI) {
+	console.log('Protegido');
+    } else {
+	setTimeout(this.run.bind(this), checkInterval);
+    }
 }
 
 Defense.prototype.fromBrazil = function (chatId) {

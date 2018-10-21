@@ -19,5 +19,6 @@ window.onload = function() {
     inject('defense.js');
     inject('foward.js');
     inject('ui.js');
+    inject('app.js');
     inject('run.js');
 }
