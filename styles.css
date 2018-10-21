@@ -23,7 +23,7 @@
 	text-align: left;
 	width: 100%;
 	max-width: 768px;
-	min-height: 480px;
+	height: auto;
 	display: -webkit-inline-box;   
 	display: -moz-inline-box;
   display: -ms-inline-flexbox;
@@ -133,6 +133,16 @@
 #cib-target > #cib-modal form#choose li.choose-item > label > img {
 	width: 100%;
 
+}
+
+#cib-target > #cib-modal form#send {
+	height: 200px;
+	width: 100%;
+}
+
+#cib-target > #cib-modal form#send > ul {
+	height: 100px;
+	overflow: auto;
 }
 
 /* === helpers === */
