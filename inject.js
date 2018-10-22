@@ -14,7 +14,11 @@ function inject(script) {
 
 window.onload = function() {
     const icons = {
-        loading: chrome.extension.getURL('/assets/icons/loading.svg')
+        search: chrome.extension.getURL('/assets/icons/search.svg'),
+        loading: chrome.extension.getURL('/assets/icons/loading.svg'),
+        send: chrome.extension.getURL('/assets/icons/send.svg'),
+        back: chrome.extension.getURL('/assets/icons/back.svg'),
+        cerberus: chrome.extension.getURL('/assets/images/cerberus.png') 
     };
 
     window.sessionStorage.setItem('cerberus-icons', JSON.stringify(icons))

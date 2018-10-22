@@ -112,10 +112,12 @@ UI.prototype.run = function () {
     s.text = `    
     <section id='cib-modal'>
       <div class="search-wrapper">
-        <h1>{{ name }}, procure seu conteúdo!</h1>
+        <h1><img src="{{icons.cerberus}}"> Cerberus</h1>
         <form id="cib-search">
-          <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
-          <button type="submit">GO!</button>
+          <div class="input-group">
+            <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
+            <img src="{{icons.search}}" />
+          </div>
         </form>
       </div>
       <div class='cib-loading-wrapper -hide'>

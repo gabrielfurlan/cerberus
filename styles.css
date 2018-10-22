@@ -34,19 +34,18 @@
   flex-direction: column;
   flex-wrap: wrap;
 	padding: 30px;
-	background-color: #fff;
+	background-color: #dfe6e9;
 	border-radius: 4px;
 }
 
 #cib-target #cib-modal.-active {
 	justify-content: flex-start;
-	align-items: flex-start;
 }
 
 /* ======== search title =========*/
 #cib-target #cib-modal h1 {
 	width: 100%;
-	margin-bottom: 15px;
+	margin-bottom: 25px;
 }
 
 /* ======== search form =========*/
@@ -55,22 +54,47 @@
 	width: 100%;
 }
 
-#cib-target #cib-modal form#cib-search input#term {
-	width: calc(100% - 54px);
-	height: 40px;
-	border: solid 1px #2d3436;	
-	border-right: none;
-	border-radius: 4px 0px 0px 4px;
-	padding: 0px 10px;
+#cib-target #cib-modal .search-wrapper > h1 {
+	font-size: 24px;
+	font-weight: 700px;
+	width: 100%;
+	text-align: center;
 }
 
-#cib-target #cib-modal form#cib-search button {
-	width: 50px;
-	height: 40px;
-	color: #fff;
-	background-color: #00b894;
-	margin-left: -4px;
-	border-radius: 0px 4px 4px 0px;
+#cib-target #cib-modal .search-wrapper > h1 > img {
+	width: 60px;
+	vertical-align: middle;
+}
+
+#cib-target #cib-modal form#cib-search {
+	margin-top: 15px;
+}
+
+#cib-target #cib-modal form#cib-search > .input-group {
+	background-color: #fff;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+		-moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+				box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#cib-target #cib-modal form#cib-search > .input-group > img {
+	width: 25px;
+	margin-left: 11px;
+	vertical-align: middle;
+} 
+
+#cib-target #cib-modal form#cib-search input#term,
+#cib-target #cib-modal form#cib-search input#term:focus {
+	display: inline-block;
+	width: calc(100% - 44px);
+	height: 45px;
+	border: none;
+	padding: 10px;
+	vertical-align: middle;
+	outline: none;
 }
 
 #cib-target #cib-modal form#cib-search button:hover {
