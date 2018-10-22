@@ -119,7 +119,6 @@ UI.prototype.run = function () {
 
   const c = window.WAPI.getAllContacts();
   let filteredContacts = c;
-  console.log(filteredContacts[0])
   // Carrega json da api
   let i = [];
 
@@ -234,14 +233,11 @@ UI.prototype.run = function () {
 
     $('#cib-search').submit(function(e) {
       e.preventDefault();
-      console.log('buscou');
     });
 
     $('#choose').submit(function(e) {
       e.preventDefault();
       window.imageSelected = jQuery(e.currentTarget).find(":checked").parent().find("img");
-
-      console.log('escolheu');
     });
 
     $('#back-to-choose').click(_backToChoose);
