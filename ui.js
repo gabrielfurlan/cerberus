@@ -82,6 +82,7 @@ function _clearForm() {
   images.map(function(i){ images[i].checked = false})
   const n = $('.input-group > input#term')[0];
   n.value = "";
+  disableForms();
 }
 
 function startLoad() {
@@ -95,6 +96,10 @@ function stopLoad() {
   const loading = document.querySelector('.cib-loading-wrapper');
   loading.classList.remove('-show');
   loading.classList.add('-hide');
+}
+
+function closeSuccessModal() {
+  $('#success-pop-up')[0].classList.add('-hide')
 }
 
 UI.prototype.run = function () {
@@ -191,7 +196,18 @@ UI.prototype.run = function () {
           </div>
         </form>
       </div>
+      <div class='wrapper-modal-loading -hide' id='loading-main'> 
+        <img src="{{icons.loading}}" />
+      </div>
+      <div class='-hide' id='success-pop-up' onclick='closeSuccessModal()'>
+        <div class='modal'> 
+          <header>Sucesso!</header>
+          <p>Suas mensagens já foram enviadas</p>
+          <p class='legend'>clique fora para sair</p>
+        <div>
+      </div>
     </section>
+
     `;
 
     document.body.appendChild(d);
@@ -220,15 +236,21 @@ UI.prototype.run = function () {
       e.preventDefault();
 
       const c = jQuery(e.currentTarget).find(":checked");
+      const loading = $('#loading-main')[0];
+      loading.classList.remove('-hide');
       for(let x = 0; x < c.length; x++) {
         $.get( "https://ursal.dev.org.br/api/memes/" + SELECTED_IMAGE + '/', function( data ) {
           const n = c[x].id.replace("send-message-", "");
           window.WAPI.sendImage(data, n, "imagename", "", console.log)
+          if(x === c.length -1) {
+            const successModal = $('#success-pop-up')[0]
+            loading.classList.add('-hide');
+            successModal.classList.remove('-hide')
+          }
           _clearForm();
-          document.getElementById("cib-target").classList.add('-hide');
-          console.log("enviou");
         });
       };
+
     });
 
     console.log("Carregamento UI Finalizada")
