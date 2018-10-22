@@ -141,7 +141,7 @@ UI.prototype.run = function () {
         <h1><img src="{{icons.cerberus}}"> Cerberus</h1>
         <form id="cib-search">
           <div class="input-group">
-            <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" oplaceholder="pesquise" id="term" name="term" />
+            <input autocomplete="off" onkeyup="handleChangeSearchInput(this)" placeholder="pesquise documentos, imagens, textos e videos" id="term" name="term" />
             <img src="{{icons.search}}" />
           </div>
         </form>
