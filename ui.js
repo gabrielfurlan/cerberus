@@ -82,6 +82,8 @@ function _clearForm() {
   images.map(function(i){ images[i].checked = false})
   const n = $('.input-group > input#term')[0];
   n.value = "";
+  _backToChoose();
+  $('##cib-modal').classList.remove('-active');
   disableForms();
 }
 
@@ -108,7 +110,8 @@ function stopLoad() {
 }
 
 function closeSuccessModal() {
-  $('#success-pop-up')[0].classList.add('-hide')
+  $('#success-pop-up')[0].classList.add('-hide');
+  $('#cib-target')[0].classList.add('-hide');
 }
 
 UI.prototype.run = function () {
