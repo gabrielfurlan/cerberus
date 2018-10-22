@@ -40,7 +40,7 @@ function handleChangeSearchInput(e) {
 function _handleSelectImage(e) {
   const value = e.value;
   SELECTED_IMAGE = value;
-  const contacts = document.querySelector('#cib-send');
+  const contacts = document.querySelector('#send-wrapper');
   contacts.classList.remove('-hide')
   contacts.classList.add('-show')
 }
@@ -147,16 +147,21 @@ UI.prototype.run = function () {
           </ul>
         </form>
       </div>
-      <div class="send-wrapper">
-        <form id="cib-send" class="-hide">
-          <h2>Destinatários</h2>
-          <input onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
+      <div id="send-wrapper" class="send-wrapper -hide">
+        <form id="cib-send">
+          <div class="search-wrapper">
+            <div class="input-group">
+              <input autocomplete="off" onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
+              <img src="{{icons.search}}" />
+            </div>
+          </div>
           <ul id='cib-contact-list'>
             {{#contacts}}
-            <li key={{id._serialized}} data-name={{name}}>
+            <li class="cib-contact" key={{id._serialized}} data-name={{name}}>
               <input
                 type="checkbox"
                 id={{id._serialized}}
+                class="-hide"
               />
               <label for='{{id._serialized}}'>
                 {{formattedName}}

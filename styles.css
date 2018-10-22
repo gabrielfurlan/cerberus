@@ -1,6 +1,6 @@
 /* 
 	
-	color pallete https://flatuicolors.com/palette/us
+	color pallete https://flatuicolors.com/palette/us !!!!!!!!!!!!!!!!!!!!
 
 */
 
@@ -20,6 +20,7 @@
 }
 
 #cib-target #cib-modal {
+	position: relative;
 	text-align: left;
 	width: 100%;
 	max-width: 768px;
@@ -172,6 +173,94 @@
 	height: 100px;
 	margin-top: 20px;
 }
+
+
+#cib-target #cib-modal > .send-wrapper {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	text-align: center;
+}
+
+#cib-target #cib-modal > .send-wrapper > form {
+	display: inline-block;
+	width: 400px;
+	max-height: 500px;
+	overflow-y: auto;
+	background-color: #dfe6e9;
+	position: relative;
+
+}
+
+#cib-target #cib-modal > .send-wrapper > form > .search-wrapper {
+	position: -webkit-sticky;
+	position: sticky;
+	z-index: 996;
+	width: 100%;
+	padding: 10px;
+	top: 0;
+	background-color: #dfe6e9;
+}
+
+#cib-target #cib-modal > .send-wrapper > form > .search-wrapper > .input-group {
+	background-color: #fff;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
+		-moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
+				box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
+}
+
+#cib-target #cib-modal > .send-wrapper > form > .search-wrapper > .input-group > img {
+	width: 20px;
+	margin-left: 11px;
+	vertical-align: middle;
+} 
+
+#cib-target #cib-modal > .send-wrapper > form input#contactInput,
+#cib-target #cib-modal > .send-wrapper > form input#contactInput:focus {
+	display: inline-block;
+	width: calc(100% - 44px);
+	height: 35px;
+	border: none;
+	padding: 10px;
+	vertical-align: middle;
+	outline: none;
+}
+
+#cib-target #cib-modal > .send-wrapper #cib-contact-list {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+#cib-target #cib-modal > .send-wrapper #cib-contact-list .cib-contact {
+	width: 100%;
+	height: 45px;
+	border-top: solid 1px #dfe6e9;
+	background-color: #fff;
+}
+
+#cib-target #cib-modal > .send-wrapper #cib-contact-list .cib-contact label {
+	width: 100%;
+	height: 100%;
+	display: -webkit-box;   
+	display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+	font-size: 0.9em;
+	padding-left: 10px;
+	cursor: pointer;
+}
+
+#cib-target #cib-modal > .send-wrapper #cib-contact-list .cib-contact input:checked + label {
+	background-color: rgba(255, 234, 167, 0.4);
+}
+
 
 /* === helpers === */
 .-hide {
