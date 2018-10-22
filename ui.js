@@ -105,7 +105,7 @@ UI.prototype.run = function () {
 
   const c = window.WAPI.getAllContacts();
   let filteredContacts = c;
-
+  console.log(filteredContacts[0])
   // Carrega json da api
   let i = [];
 
@@ -114,7 +114,8 @@ UI.prototype.run = function () {
     const r = {
       "name": "Luke",
       "images": data,
-      "contacts": filteredContacts
+      "contacts": filteredContacts.filter(function(item) {  return item.id.server[0] === 'c'  }),
+      "groups": filteredContacts.filter(function(item) {  return item.id.server[0] === 'g'  })
     };
 
     const s = document.createElement('script');
@@ -122,7 +123,7 @@ UI.prototype.run = function () {
     s.type = 'x-tmpl-mustache';
     s.text = `    
     <section id='cib-modal'>
-      <button onclick="_clearForm()">Limpar</button>
+      <!-- <button onclick="_clearForm()">Limpar</button> -->
       <div class="search-wrapper">
         <h1><img src="{{icons.cerberus}}"> Cerberus</h1>
         <form id="cib-search">
@@ -149,27 +150,45 @@ UI.prototype.run = function () {
       </div>
       <div id="send-wrapper" class="send-wrapper -hide">
         <form id="cib-send">
-          <div class="search-wrapper">
-            <div class="input-group">
-              <input autocomplete="off" onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
-              <img src="{{icons.search}}" />
+          <div class='scroll'>
+            <div class="search-wrapper">
+              <div class="input-group">
+                <input autocomplete="off" onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
+                <img src="{{icons.search}}" />
+              </div>
             </div>
+            <ul id='cib-contact-list'>
+              <h2 class='subtitle'>Grupos</h2>
+              {{#groups}}
+              <li class="cib-contact" key={{id._serialized}} data-name={{name}}>
+                <input
+                  type="checkbox"
+                  id={{id._serialized}}
+                  class="-hide"
+                />
+                <label for='{{id._serialized}}'>
+                  {{formattedName}}
+                </label>
+              </li>
+              {{/groups}}
+            </ul>
+            <ul id='cib-contact-list'>
+              <h2 class='subtitle'>Contatos</h2>
+              {{#contacts}}
+              <li class="cib-contact" key={{id._serialized}} data-name={{name}}>
+                <input
+                  type="checkbox"
+                  id={{id._serialized}}
+                  class="-hide"
+                />
+                <label for='{{id._serialized}}'>
+                  {{formattedName}}
+                </label>
+              </li>
+              {{/contacts}}
+            </ul>
+            <button class='send-button' type="submit"><img src="{{icons.send}}"></button>
           </div>
-          <ul id='cib-contact-list'>
-            {{#contacts}}
-            <li class="cib-contact" key={{id._serialized}} data-name={{name}}>
-              <input
-                type="checkbox"
-                id={{id._serialized}}
-                class="-hide"
-              />
-              <label for='{{id._serialized}}'>
-                {{formattedName}}
-              </label>
-            </li>
-            {{/contacts}}
-          </ul>
-          <button type="submit">enviar</button>
         </form>
       </div>
     </section>
@@ -205,6 +224,8 @@ UI.prototype.run = function () {
         $.get( "https://ursal.dev.org.br/api/memes/" + SELECTED_IMAGE + '/', function( data ) {
           const n = c[x].id.replace("send-message-", "");
           window.WAPI.sendImage(data, n, "imagename", "", console.log)
+          _clearForm();
+          document.getElementById("cib-target").classList.add('-hide');
           console.log("enviou");
         });
       };
