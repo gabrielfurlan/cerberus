@@ -33,6 +33,8 @@
       "wapi.js",
       "ui.js",
       "defense.js",
+      "foward.js",
+      "app.js",
       "run.js"
   ]
 }

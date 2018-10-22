@@ -1,2 +1,4 @@
-new Defense().run();
-new UI().run();
+var app = new App();
+app.register(new Defense());
+app.register(new UI());
+app.run();
