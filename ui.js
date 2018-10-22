@@ -85,6 +85,15 @@ function _clearForm() {
   disableForms();
 }
 
+function _backToChoose() {
+  const contacts = $('#cib-contact-list li input');
+  contacts.map(function(i){ contacts[i].checked = false});
+  
+  const send = document.querySelector('#send-wrapper');
+  send.classList.add('-hide');
+  send.classList.remove('-show');
+}
+
 function startLoad() {
   disableForms();
   const loading = document.querySelector('.cib-loading-wrapper');
@@ -157,6 +166,9 @@ UI.prototype.run = function () {
         <form id="cib-send">
           <div class='scroll'>
             <div class="search-wrapper">
+              <div class='header-actions'>
+                <button id="back-to-choose" class='close' type="button"><img src="{{icons.back}}"></button>
+              </div>
               <div class="input-group">
                 <input autocomplete="off" onkeyup="_handleContactChange(this)" placeholder="Procure os contatos" id="contactInput" name="contact" />
                 <img src="{{icons.search}}" />
@@ -231,6 +243,8 @@ UI.prototype.run = function () {
 
       console.log('escolheu');
     });
+
+    $('#back-to-choose').click(_backToChoose);
 
     $('#cib-send').submit(function(e) {
       e.preventDefault();

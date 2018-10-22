@@ -209,6 +209,20 @@
 	background-color: #dfe6e9;
 }
 
+#cib-target #cib-modal > .send-wrapper > form > .scroll > .search-wrapper > .header-actions {
+	width: 100%;
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+#cib-target #cib-modal > .send-wrapper > form > .scroll > .search-wrapper > .header-actions > button {
+	width: 30px;
+}
+
+#cib-target #cib-modal > .send-wrapper > form > .scroll > .search-wrapper > .header-actions > button > img {
+	width: 100%;
+}
+
 #cib-target #cib-modal > .send-wrapper > form > .scroll > .search-wrapper > .input-group {
 	background-color: #fff;
 	border-radius: 4px;
