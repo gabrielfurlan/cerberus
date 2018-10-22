@@ -73,6 +73,17 @@ function disableForms() {
   })
 }
 
+function _clearForm() {
+  SELECTED_IMAGE = "";
+  const contacts = $('#cib-contact-list li input');
+  contacts.map(function(i){ contacts[i].checked = false});
+
+  const images = $('input.meme-check-input');
+  images.map(function(i){ images[i].checked = false})
+  const n = $('.input-group > input#term')[0];
+  n.value = "";
+}
+
 function startLoad() {
   disableForms();
   const loading = document.querySelector('.cib-loading-wrapper');
@@ -111,6 +122,7 @@ UI.prototype.run = function () {
     s.type = 'x-tmpl-mustache';
     s.text = `    
     <section id='cib-modal'>
+      <button onclick="_clearForm()">Limpar</button>
       <div class="search-wrapper">
         <h1><img src="{{icons.cerberus}}"> Cerberus</h1>
         <form id="cib-search">
