@@ -13,9 +13,20 @@ function inject(script) {
 }
 
 window.onload = function() {
+    const icons = {
+        search: chrome.extension.getURL('/assets/icons/search.svg'),
+        loading: chrome.extension.getURL('/assets/icons/loading.svg'),
+        send: chrome.extension.getURL('/assets/icons/send.svg'),
+        back: chrome.extension.getURL('/assets/icons/back.svg'),
+        cerberus: chrome.extension.getURL('/assets/images/cerberus.png') 
+    };
+
+    window.sessionStorage.setItem('cerberus-icons', JSON.stringify(icons))
+
     inject('jquery.js');
     inject('md5.js');
     inject('mustache.js');
+    inject('list.js');
     inject('wapi.js');
     inject('defense.js');
     inject('ui.js');
