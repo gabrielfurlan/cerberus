@@ -29,14 +29,11 @@
   ],
   "web_accessible_resources": [
       "jquery.js",
-      "list.js",
       "mustache.js",
       "wapi.js",
       "ui.js",
       "defense.js",
-      "foward.js",
       "app.js",
-      "run.js"
       "run.js",
       "assets/*"
   ]
