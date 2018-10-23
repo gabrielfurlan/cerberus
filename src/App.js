@@ -85,7 +85,7 @@ export default class App extends Component {
             textAlign: 'right',
           }}
         >
-          Abrir funções extras
+          +
         </div>
       );
     }
