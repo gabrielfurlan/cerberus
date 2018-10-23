@@ -263,7 +263,7 @@ UI.prototype.run = function() {
 
       $('#choose').submit(function(e) {
         e.preventDefault();
-        window.imageSelected = jQuery(e.currentTarget)
+        window.imageSelected = $(e.currentTarget)
           .find(':checked')
           .parent()
           .find('img');
@@ -274,7 +274,7 @@ UI.prototype.run = function() {
       $('#cib-send').submit(function(e) {
         e.preventDefault();
 
-        const c = jQuery(e.currentTarget).find(':checked');
+        const c = $(e.currentTarget).find(':checked');
         const loading = $('#loading-main')[0];
         loading.classList.remove('-hide');
         for (let x = 0; x < c.length; x++) {
