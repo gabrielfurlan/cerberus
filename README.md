@@ -1,3 +1,13 @@
+# Pro usuario:
+
+## Como habilitar o ban no canal
+
+No console, digita:
+```
+window.localStorage.banForeigners = true
+```
+
+# Pros devs
 ## Rodando o build da extensão
 ```
 npm run build
