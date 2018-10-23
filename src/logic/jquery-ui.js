@@ -88,7 +88,7 @@ window._clearForm = function _clearForm() {
   const n = $('.input-group > input#term')[0];
   n.value = '';
   _backToChoose();
-  $('##cib-modal').classList.remove('-active');
+  $('#cib-modal')[0].classList.remove('-active');
   disableForms();
 }
 
@@ -116,7 +116,7 @@ function stopLoad() {
   loading.classList.add('-hide');
 }
 
-function closeSuccessModal() {
+window.closeSuccessModal = function closeSuccessModal() {
   $('#success-pop-up')[0].classList.add('-hide');
   $('#cib-target')[0].classList.add('-hide');
 }
