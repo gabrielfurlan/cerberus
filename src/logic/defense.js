@@ -65,9 +65,10 @@ Defense.prototype.now = function() {
 
 Defense.prototype.banForeigners = function(chat) {
   var pqp = chat;
+  var self = this;
   window.WAPI._getGroupParticipants(chat.id._serialized).then(function(participants) {
     participants.forEach(function(participant) {
-      if (!this.fromBrazil(participant.id._serialized)) {
+      if (!self.fromBrazil(participant.id._serialized)) {
 	window.WAPI.removeParticipantGroup(chat.id._serialized, participant.id._serialized);
       }
     }.bind(chat));
