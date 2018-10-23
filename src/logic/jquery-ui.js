@@ -7,7 +7,7 @@ let SELECTED_IMAGE = undefined;
  * Support functions
  */
 
-function getBase64Image(img) {
+window.getBase64Image = function getBase64Image(img) {
   var canvas = document.createElement('canvas');
   canvas.width = img.width;
   canvas.height = img.height;
@@ -17,7 +17,8 @@ function getBase64Image(img) {
   return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
 }
 
-function handleChangeSearchInput(e) {
+window.handleChangeSearchInput = function handleChangeSearchInput(e) {
+  console.log('handleChangeSearchInput');
   startLoad();
   const modal = document.querySelector('#cib-modal');
   const value = e.value;
@@ -37,7 +38,7 @@ function handleChangeSearchInput(e) {
   }
 }
 
-function _handleSelectImage(e) {
+window._handleSelectImage = function _handleSelectImage(e) {
   const value = e.value;
   SELECTED_IMAGE = value;
   const contacts = document.querySelector('#send-wrapper');
@@ -45,7 +46,7 @@ function _handleSelectImage(e) {
   contacts.classList.add('-show');
 }
 
-function _handleContactChange(e, contacts) {
+window._handleContactChange = function _handleContactChange(e, contacts) {
   const value = e.value;
   const items = $('#cib-contact-list li');
 
@@ -73,7 +74,7 @@ function disableForms() {
   });
 }
 
-function _clearForm() {
+window._clearForm = function _clearForm() {
   SELECTED_IMAGE = '';
   const contacts = $('#cib-contact-list li input');
   contacts.map(function(i) {
