@@ -29,6 +29,7 @@
     }
   ],
   "web_accessible_resources": [
-    "build/zapzap-app.js"
+    "build/zapzap-app.js",
+    "assets/*"
   ]
 }
