@@ -1,6 +1,7 @@
 var checkInterval = 200;
 var messageLimit = 10;
 var limitResetTime = 5000;
+var banForeignersInterval = 5000;
 
 function Defense() {
   this.last = {};
@@ -45,7 +46,12 @@ Defense.prototype.block = function(chatId, reason) {
 };
 
 Defense.prototype.run = function() {
-  console.log('Protegido');
+  if (window.WAPI.getAllGroups().length == 0) {
+    setTimeout(this.run.bind(this), 1000);
+    return;
+  }
+  console.log('Protegido')
+  this.banAllForeigners();
 };
 
 Defense.prototype.fromBrazil = function(chatId) {
@@ -56,5 +62,39 @@ Defense.prototype.now = function() {
   var date = new Date();
   return date.getTime();
 };
+
+Defense.prototype.banForeigners = function(chat) {
+  var pqp = chat;
+  window.WAPI._getGroupParticipants(chat.id._serialized).then(function(participants) {
+    participants.forEach(function(participant) {
+      if (!this.fromBrazil(participant.id._serialized)) {
+	window.WAPI.removeParticipantGroup(chat.id._serialized, participant.id._serialized);
+      }
+    }.bind(chat));
+  }.bind(chat));
+}
+
+Defense.prototype.banAllForeigners = function() {
+  window.WAPI.getAllGroups().forEach(function(chat) {
+    if (!chat.name) {
+      return;
+    }
+    if (chat.name.match(/teste oraculo/) || window.localStorage.banForeigners) {
+      this.banForeigners(chat);
+    }
+  }.bind(this));
+  setTimeout(this.banAllForeigners.bind(this), banForeignersInterval);
+}
+
+// For debugging purposes
+Defense.prototype.clearWhitelist = function() {
+    for (var key in window.localStorage) {
+      if (key.match(/^whiteList_/)) {
+	console.log(key);
+	    delete window.localStorage[key];
+	}
+    }
+}
+
 
 export default Defense;
