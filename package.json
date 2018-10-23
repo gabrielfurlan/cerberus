@@ -1,0 +1,30 @@
+{
+  "name": "zapzap-app",
+  "version": "1.0.0",
+  "main": "inject.js",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bluebird": "^3.5.2",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "mustache": "^3.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.1.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "parcel": "^1.10.3"
+  },
+  "scripts": {
+    "watch": "parcel watch ./zapzap-app.js --out-dir build --no-hmr",
+    "build": "parcel build ./zapzap-app.js --out-dir build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

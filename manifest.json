@@ -3,6 +3,7 @@
   "name": "Cerberus Defense",
   "version": "0.2",
   "permissions": [
+    "webNavigation",
     "webRequest",
     "webRequestBlocking",
     "browsingData",
@@ -19,7 +20,7 @@
       "matches": [
         "https://web.whatsapp.com/"
       ],
-	    "js": [ 
+      "js": [ 
         "inject.js"
       ],
       "css": [
@@ -28,13 +29,7 @@
     }
   ],
   "web_accessible_resources": [
-      "jquery.js",
-      "mustache.js",
-      "wapi.js",
-      "ui.js",
-      "defense.js",
-      "app.js",
-      "run.js",
-      "assets/*"
+    "build/zapzap-app.js",
+    "assets/*"
   ]
 }

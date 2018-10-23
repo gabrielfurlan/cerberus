@@ -1,17 +1,27 @@
+## Rodando o build da extensão
+```
+npm run build
+```
 
-## Bibliotecas
+## Rodando o build da extensão em modo watch
+```
+npm run watch
+```
 
-* jquery
-* mustache
-* md5
-* wapi
+## Como funciona o carregamento
+* inject.js - Injeta o JavaScript da extensão no contexto da página do WhatsApp
+* background.js - Desativa Content-Security-Policy e remove service workers a
+  cada reload
+* zapzap-app.js - Tenta carregar os modulos do WhatsApp a cada 1s; quando for
+  detectado que os módulos foram carregados, injeta a biblioteca `wapi` e
+  carrega o App React.js em `src/App.js`
+* src/App.js - Carrega o app React.js e o app jQuery
 
 ## Scripts
-
-* app.js - Centraliza registro de modulo e leitura de mensagens não lidas
 * background.js - Habilita requisicões para domínios externos
-* cerberus.js - Defense utilizado para quando a extensao não funciona
-* dispatcher.js - Disparo de mensagens de forma a não ser bloqueado pelo whatsapp
 * inject.js - Faz a injecao de código no dom da página do whatsapp
-* run.js - Registra os módulos a serem carregados pelo app e executa o app
-* ui.js - Interface para busca e envio de mensagens em massa 
+* src/App.js - Entry-point para interface React.js
+* src/Worker.js - Fila inspecionável de execução de tarefas, integrada no App
+  React.js
+* src/logic - Lógica diversa do app, incluindo a interface jQuery implementada
+* src/logic/old-dispatcher.js - Outra forma de fila de execução de tarefas

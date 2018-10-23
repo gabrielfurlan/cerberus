@@ -3,6 +3,8 @@
  * (This allows us to stablish connections to servers other than WhatsApp)
  */
 
+console.log('Disablinng Content-Security-Policy');
+
 var onHeadersReceived = function(details) {
   for (var i = 0; i < details.responseHeaders.length; i++) {
     if (
@@ -28,4 +30,12 @@ chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, filter, [
   'responseHeaders',
 ]);
 
-chrome.browsingData.remove({}, {"serviceWorkers": true}, function () {});
+chrome.webNavigation.onCompleted.addListener(() => {
+  console.log('Removing Service Workers');
+  chrome.browsingData.remove({}, {"serviceWorkers": true}, function () {});
+});
+
+chrome.webNavigation.onBeforeNavigate.addListener(() => {
+  console.log('Removing Service Workers');
+  chrome.browsingData.remove({}, {"serviceWorkers": true}, function () {});
+});
