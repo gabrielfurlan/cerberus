@@ -1,6 +1,7 @@
+import last from 'lodash/last';
 import Task from './Task';
 
-export default class JoinChannel {
+export default class JoinChannel extends Task {
   constructor(groupLink) {
     const groupId = last(groupLink.split('/')).replace(/\/#/g, '');
     super(`Entrar no canal ${groupId}`);
@@ -9,6 +10,6 @@ export default class JoinChannel {
   }
 
   run() {
-    await window.Store.Wap.acceptGroupInvite(this.groupId);
+    window.Store.Wap.acceptGroupInvite(this.groupId);
   }
 }

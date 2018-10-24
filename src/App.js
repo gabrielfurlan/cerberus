@@ -6,6 +6,7 @@ import Tabs from './components/Tabs';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
 import SendMeme from './tasks/SendMeme';
+import JoinChannel from './tasks/JoinChannel';
 import MemeDistribution from './rules/MemeDistribution';
 
 // This line executes the old jQuery application
@@ -74,13 +75,8 @@ export default class App extends Component {
    */
 
   onClickJoin = groups => {
-    this.worker.push({
-      type: ACTIONS.MASSIVE_JOIN,
-      description: `Entrando em ${groups.length} grupos`,
-      size: groups.length,
-      payload: {
-        groups,
-      },
+    groups.forEach((group) => {
+      this.worker.push(new JoinChannel(group));
     });
   };
 

@@ -35,7 +35,7 @@ export default class Worker {
    */
   getState() {
     return {
-      queue: this.taskQueue,
+      queue: this.queue,
       message: this.message,
       done: this.done,
       rules: this.rules,
