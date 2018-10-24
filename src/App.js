@@ -11,6 +11,10 @@ import ContentSearchAndSend from './containers/ContentSearchAndSend';
 import MassiveJoin from './containers/MassiveJoin';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
+import SendMeme from './tasks/SendMeme';
+import JoinChannel from './tasks/JoinChannel';
+import CloneGroup from './tasks/JoinChannel';
+import MemeDistribution from './rules/MemeDistribution';
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -28,6 +32,21 @@ export default class App extends Component {
     };
 
     this.worker = new Worker();
+    /*
+    this.worker.push(new SendMeme({ id: 10 }, 'bob'));
+    this.worker.push(new SendMeme({ id: 13 }, 'alice'));
+    this.worker.push(new SendMeme({ id: 25 }, 'noone'));
+
+    setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
+    setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
+
+    const rule = new MemeDistribution('447984452092@c.us',
+				      [],// { id: 55 }, { id: 57 } ],
+				      true,
+				      10000,
+				      1000);
+    this.worker.addRule(rule);
+    */
   }
 
   componentDidMount() {
@@ -67,13 +86,8 @@ export default class App extends Component {
     this.setState({
       activeTab: 0,
     });
-    this.worker.push({
-      type: ACTIONS.MASSIVE_JOIN,
-      description: `Entrando em ${groups.length} grupos`,
-      size: groups.length,
-      payload: {
-        groups,
-      },
+    groups.forEach((group) => {
+      this.worker.push(new JoinChannel(group));
     });
   };
 
@@ -81,28 +95,15 @@ export default class App extends Component {
     this.setState({
       activeTab: 0,
     });
-    this.worker.push({
-      type: ACTIONS.CLONE_GROUP,
-      description: `Clonando grupo ${group.contact.name}`,
-      size: 1,
-      payload: {
-        group,
-      },
-    });
+    this.worker.push(new CloneGroup(group));
   };
 
-  onClickMassImageSend = ({contacts, image}) => {
+  onClickMassImageSend = ({contacts, meme}) => {
     this.setState({
       activeTab: 0,
     });
-    this.worker.push({
-      type: ACTIONS.SEND_IMAGE,
-      description: `Enviando imagem para ${contacts.length} recipientes`,
-      size: contacts.length,
-      payload: {
-        contacts,
-        image,
-      },
+    contacts.forEach((contact) => {
+      this.worker.push(new SendMeme(meme, contact.id._serialized));
     });
   };
 

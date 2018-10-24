@@ -150,7 +150,7 @@ export default class ContentSearchAndSend extends Component {
 
     this.props.onClickSend({
       contacts: contactsToSend,
-      image: this.state.selectedImage.thumb_base64,
+      meme: this.state.selectedImage,
     });
 
     this.setState({

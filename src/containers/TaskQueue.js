@@ -11,12 +11,11 @@ export default class TaskQueue extends Component {
       return <div>Fila inicializando...</div>;
     }
 
-    const taskQueue = this.props.workerState.taskQueue;
+    const queue = this.props.workerState.queue;
     const tasks = this.props.workerState.tasks;
-    const runningTask = this.props.workerState.runningTask;
-    const doneTasks = this.props.workerState.doneTasks;
+    const done = this.props.workerState.done;
 
-    const tasksToRender = taskQueue.map(taskId => {
+    const tasksToRender = queue.map(taskId => {
       return tasks[taskId];
     });
 
@@ -28,7 +27,7 @@ export default class TaskQueue extends Component {
       );
     });
 
-    const doneTaskEls = doneTasks.map(taskDefinition => {
+    const doneTaskEls = done.map(taskDefinition => {
       return (
         <li key={taskDefinition.id}>
           <strong>{taskDefinition.type}</strong> - {taskDefinition.description}
@@ -50,23 +49,6 @@ export default class TaskQueue extends Component {
             <ul>{taskEls}</ul>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-
-        {runningTask && (
-          <ExpansionPanel defaultExpanded>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              Tarefa em execução
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <strong>{runningTask.type}</strong> - {runningTask.description} -{' '}
-              {runningTask.progress} / {runningTask.size}
-              <br />
-              <LinearProgress
-                variant="determinate"
-                value={runningTask.progress / runningTask.size}
-              />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
