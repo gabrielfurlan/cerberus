@@ -6,6 +6,7 @@ import Promise from 'bluebird';
 export const ACTIONS = {
   MASSIVE_JOIN: 'MASSIVE_JOIN',
   CLONE_GROUP: 'CLONE_GROUP',
+  SEND_IMAGE: 'SEND_IMAGE',
 };
 
 /**
@@ -106,7 +107,11 @@ export default class Worker extends EventEmitter {
       this.runningTask = null;
       this.doneTasks = [taskDefinition, ...this.doneTasks];
     }
-    taskDefinition.promise = this.runTask(taskDefinition).then(onFinish, onFinish);
+
+    taskDefinition.promise = this.runTask(taskDefinition).then(
+      onFinish.bind(this),
+      onFinish.bind(this),
+    );
   }
 
   /**
@@ -123,12 +128,46 @@ export default class Worker extends EventEmitter {
         return this.runCloneGroup(taskDefinition);
       }
 
+      case ACTIONS.SEND_IMAGE: {
+        return this.runSendImage(taskDefinition);
+      }
+
       default: {
         return Promise.reject(
           new Error(`Unknown task type ${taskDefinition.type}`),
         );
       }
     }
+  }
+
+  /**
+   * Sends an image to a list of recipients
+   */
+
+  runSendImage(taskDefinition) {
+    const {contacts, image} = taskDefinition.payload;
+
+    return Promise.mapSeries(contacts, async contact => {
+      console.log(`Sending image to ${contact.id._serialized}`);
+      this.message = `Sending image to ${contact.id._serialized}`;
+
+      try {
+        await window.WAPI.sendImage(
+          image,
+          contact.id._serialized,
+          'imagename',
+          '',
+        );
+      } catch (err) {
+        console.error(`Failed to send image ${err}`);
+        this.message = `Failed to send image ${err}`;
+      }
+
+      taskDefinition.progress += 1;
+      const waitTime = getNextActionWaitTime();
+      this.message = `Esperando por ${waitTime}ms`;
+      return Promise.delay(waitTime);
+    });
   }
 
   /**

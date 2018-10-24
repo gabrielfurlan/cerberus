@@ -1,10 +1,14 @@
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 import React, {Component} from 'react';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import AppBar from '@material-ui/core/AppBar';
 
-import Button from './components/Button';
 import DataExport from './containers/DataExport';
 import GroupClone from './containers/GroupClone';
+import ContentSearchAndSend from './containers/ContentSearchAndSend';
 import MassiveJoin from './containers/MassiveJoin';
-import Tabs from './components/Tabs';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
 
@@ -20,6 +24,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       collapsed: true,
+      activeTab: 0,
     };
 
     this.worker = new Worker();
@@ -59,6 +64,9 @@ export default class App extends Component {
    */
 
   onClickJoin = groups => {
+    this.setState({
+      activeTab: 0,
+    });
     this.worker.push({
       type: ACTIONS.MASSIVE_JOIN,
       description: `Entrando em ${groups.length} grupos`,
@@ -70,6 +78,9 @@ export default class App extends Component {
   };
 
   onClickClone = group => {
+    this.setState({
+      activeTab: 0,
+    });
     this.worker.push({
       type: ACTIONS.CLONE_GROUP,
       description: `Clonando grupo ${group.contact.name}`,
@@ -80,78 +91,108 @@ export default class App extends Component {
     });
   };
 
-  onClickSend = message => {};
+  onClickMassImageSend = ({contacts, image}) => {
+    this.setState({
+      activeTab: 0,
+    });
+    this.worker.push({
+      type: ACTIONS.SEND_IMAGE,
+      description: `Enviando imagem para ${contacts.length} recipientes`,
+      size: contacts.length,
+      payload: {
+        contacts,
+        image,
+      },
+    });
+  };
 
   render() {
     if (this.state.collapsed) {
       return (
-        <div
+        <Button
           onClick={this.onClickOpen}
+          variant="fab"
+          color="primary"
+          aria-label="Abrir"
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            bottom: 0,
-            height: 20,
-            padding: 20,
+            bottom: 5,
             position: 'fixed',
-            right: 0,
-            color: 'white',
-            textAlign: 'right',
+            right: 5,
           }}
         >
-          +
-        </div>
+          <AddIcon />
+        </Button>
       );
     }
+
+    const tabs = [
+      {
+        title: 'Fila de execução de tarefas',
+        content: <TaskQueue workerState={this.state.workerState} />,
+      },
+      {
+        title: 'Envio de Material',
+        content: (
+          <ContentSearchAndSend onClickSend={this.onClickMassImageSend} />
+        ),
+      },
+      {
+        title: 'Ingresso Massivo em Grupos',
+        content: <MassiveJoin onClickJoin={this.onClickJoin} />,
+      },
+      {
+        title: 'Clonagem de Grupos',
+        content: <GroupClone onClickClone={this.onClickClone} />,
+      },
+      {
+        title: 'Exportação de dados',
+        content: <DataExport />,
+      },
+      // {
+      //   title: 'Configurações',
+      //   content: 'TODO',
+      // },
+    ];
 
     return (
       <div
         style={{
-          color: 'white',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
           overflow: 'scroll',
           bottom: 0,
           height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           padding: 0,
           position: 'fixed',
           right: 0,
           width: '100%',
-          color: 'white',
         }}
       >
-        <div style={{padding: 15}}>
+        <AppBar position="static">
+          <Tabs
+            value={this.state.activeTab}
+            onChange={(event, activeTab) => this.setState({activeTab})}
+            scrollable
+            scrollButtons="auto"
+          >
+            {tabs.map((tab, i) => <Tab key={i} label={tab.title} />)}
+          </Tabs>
+        </AppBar>
+
+        <div style={{flex: 1, padding: 15}}>
+          {tabs[this.state.activeTab].content}
+        </div>
+
+        <div style={{padding: 5, textAlign: 'right'}}>
           <Button
+            variant="contained"
+            color="secondary"
             style={{color: 'white', fontSize: 16}}
             onClick={this.onClickClose}
           >
             Fechar funções extras
           </Button>
-
-          <hr />
-
-          <Tabs
-            tabs={[
-              {
-                title: 'Fila de execução de tarefas',
-                content: <TaskQueue workerState={this.state.workerState} />,
-              },
-              {
-                title: 'Ingresso Massivo em Grupos',
-                content: <MassiveJoin onClickJoin={this.onClickJoin} />,
-              },
-              {
-                title: 'Clonagem de Grupos',
-                content: <GroupClone onClickClone={this.onClickClone} />,
-              },
-              {
-                title: 'Exportação de dados',
-                content: <DataExport />,
-              },
-              {
-                title: 'Configurações',
-                content: 'TODO',
-              },
-            ]}
-          />
         </div>
       </div>
     );

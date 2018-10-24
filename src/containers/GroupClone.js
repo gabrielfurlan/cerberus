@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-
-import Button from '../components/Button';
+import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 
 export default class GroupClone extends Component {
   constructor(props) {
@@ -24,13 +24,15 @@ export default class GroupClone extends Component {
 
   renderGroup = group => {
     return (
-      <div
+      <Card
         key={group.id._serialized}
         style={{padding: 10, border: 'solid 1px white', margin: 5, float: 'left'}}
       >
         <h4>{group.contact.name}</h4>
 
         <Button
+          variant="contained"
+          color="primary"
           onClick={() => {
             this.props.onClickClone(group);
           }}
@@ -38,7 +40,7 @@ export default class GroupClone extends Component {
           Clonar grupo de {group.groupMetadata.participants.length}{' '}
           participantes
         </Button>
-      </div>
+      </Card>
     );
   };
 
