@@ -100,10 +100,13 @@ export default class Worker extends EventEmitter {
 
     taskDefinition.progress = 0;
     taskDefinition.running = true;
-    taskDefinition.promise = this.runTask(taskDefinition).then(() => {
+
+    async function onFinish() {
+      await Promise.delay(getNextActionWaitTime());
       this.runningTask = null;
       this.doneTasks = [taskDefinition, ...this.doneTasks];
-    });
+    }
+    taskDefinition.promise = this.runTask(taskDefinition).then(onFinish, onFinish);
   }
 
   /**
