@@ -51,7 +51,7 @@ export default class MemeDistribution {
   }
 
   loadFromChannel() {
-    return fetch('https://ursal.dev.org.br/api/memes/' + this.params)
+    return fetch('https://antifa.agency/api/memes/' + this.params)
       .then(res => res.json())
       .then(memes => {
 	while (memes.length > 0 && this.sent[memes[0].id]) {

@@ -51,7 +51,7 @@ export default class ContentSearchAndSend extends Component {
   }
 
   componentDidMount() {
-    fetch('https://ursal.dev.org.br/api/tags/')
+    fetch('https://antifa.agency/api/tags/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -59,7 +59,7 @@ export default class ContentSearchAndSend extends Component {
         });
       });
 
-    fetch('https://ursal.dev.org.br/api/targets/')
+    fetch('https://antifa.agency/api/targets/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -67,7 +67,7 @@ export default class ContentSearchAndSend extends Component {
         });
       });
 
-    fetch('https://ursal.dev.org.br/api/contents/')
+    fetch('https://antifa.agency/api/contents/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -75,7 +75,7 @@ export default class ContentSearchAndSend extends Component {
         });
       });
 
-    fetch('https://ursal.dev.org.br/api/memetypes/')
+    fetch('https://antifa.agency/api/memetypes/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -83,7 +83,7 @@ export default class ContentSearchAndSend extends Component {
         });
       });
 
-    fetch('https://ursal.dev.org.br/api/themes/')
+    fetch('https://antifa.agency/api/themes/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -91,7 +91,7 @@ export default class ContentSearchAndSend extends Component {
         });
       });
 
-    fetch('https://ursal.dev.org.br/api/emotions/')
+    fetch('https://antifa.agency/api/emotions/')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -122,7 +122,7 @@ export default class ContentSearchAndSend extends Component {
     });
 
     fetch(
-      `https://ursal.dev.org.br/api/memes/?${querystring.stringify(
+      `https://antifa.agency/api/memes/?${querystring.stringify(
         compactObject({
           tags: this.state.selectedTags.join(',') || null,
           emotions: this.state.selectedEmotions.join(',') || null,

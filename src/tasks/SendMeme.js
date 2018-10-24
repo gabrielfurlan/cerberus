@@ -13,7 +13,7 @@ export default class SendMeme extends Task {
 
   run() {
     console.log('sending meme ' + this.memeId + ' to ' + this.recipient);
-    fetch('https://ursal.dev.org.br/api/memes/' + this.memeId + '/')
+    fetch('https://antifa.agency/api/memes/' + this.memeId + '/')
       .then(res => res.json())
       .then(data => {
 	window.WAPI.sendImage(data, this.recipient, 'imagename', '', console.log);

@@ -27,7 +27,7 @@ export default class MassiveJoin extends Component {
   }
 
   fetchGroups() {
-    fetch('https://ursal.dev.org.br/api/chat/channels/')
+    fetch('https://antifa.agency/api/chat/channels/')
       .then(res => res.json())
       .then(randomGroups => {
         this.setState({randomGroups});

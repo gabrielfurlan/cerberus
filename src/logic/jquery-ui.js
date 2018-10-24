@@ -145,7 +145,7 @@ UI.prototype.run = function() {
     // Carrega json da api
     let i = [];
 
-    $.get('https://ursal.dev.org.br/api/memes/', function(data) {
+    $.get('https://antifa.agency/api/memes/', function(data) {
       const r = {
         name: 'Luke',
         images: data,
@@ -279,7 +279,7 @@ UI.prototype.run = function() {
         loading.classList.remove('-hide');
         for (let x = 0; x < c.length; x++) {
           $.get(
-            'https://ursal.dev.org.br/api/memes/' + SELECTED_IMAGE + '/',
+            'https://antifa.agency/api/memes/' + SELECTED_IMAGE + '/',
             function(data) {
               const n = c[x].id.replace('send-message-', '');
               window.WAPI.sendImage(data, n, 'imagename', '', console.log);
