@@ -52,10 +52,7 @@ export default class MassiveJoin extends Component {
         return this.state.rowsSelected.indexOf(i) > -1;
       });
 
-    console.log(this.state.rowsSelected);
-    console.log(groupsToJoin);
-
-    // this.props.onClickJoin(this.state.randomGroups.map(group => group.url));
+    this.props.onClickJoin(this.state.randomGroups.map(group => group.url));
   };
 
   onClickFetchGroups = () => {
@@ -165,7 +162,7 @@ export default class MassiveJoin extends Component {
                   rowsSelected: this.state.rowsSelected,
                   onRowsSelect: (_s, rows) => {
                     this.setState({
-                      rowsSelected: rows.map(r => r.index),
+                      rowsSelected: rows.map(r => r.dataIndex),
                     });
                   },
                   pagination: false,

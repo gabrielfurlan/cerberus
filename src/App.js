@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 
 import DataExport from './containers/DataExport';
 import GroupClone from './containers/GroupClone';
+import ContentSearchAndSend from './containers/ContentSearchAndSend';
 import MassiveJoin from './containers/MassiveJoin';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
@@ -63,6 +64,9 @@ export default class App extends Component {
    */
 
   onClickJoin = groups => {
+    this.setState({
+      activeTab: 0,
+    });
     this.worker.push({
       type: ACTIONS.MASSIVE_JOIN,
       description: `Entrando em ${groups.length} grupos`,
@@ -74,6 +78,9 @@ export default class App extends Component {
   };
 
   onClickClone = group => {
+    this.setState({
+      activeTab: 0,
+    });
     this.worker.push({
       type: ACTIONS.CLONE_GROUP,
       description: `Clonando grupo ${group.contact.name}`,
@@ -84,7 +91,20 @@ export default class App extends Component {
     });
   };
 
-  onClickSend = message => {};
+  onClickMassImageSend = ({contacts, image}) => {
+    this.setState({
+      activeTab: 0,
+    });
+    this.worker.push({
+      type: ACTIONS.SEND_IMAGE,
+      description: `Enviando imagem para ${contacts.length} recipientes`,
+      size: contacts.length,
+      payload: {
+        contacts,
+        image,
+      },
+    });
+  };
 
   render() {
     if (this.state.collapsed) {
@@ -109,6 +129,12 @@ export default class App extends Component {
       {
         title: 'Fila de execução de tarefas',
         content: <TaskQueue workerState={this.state.workerState} />,
+      },
+      {
+        title: 'Envio de Material',
+        content: (
+          <ContentSearchAndSend onClickSend={this.onClickMassImageSend} />
+        ),
       },
       {
         title: 'Ingresso Massivo em Grupos',
