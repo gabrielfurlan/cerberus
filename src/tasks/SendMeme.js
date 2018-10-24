@@ -11,6 +11,10 @@ export default class SendMeme extends Task {
 
   run() {
     console.log('sending meme ' + this.memeId + ' to ' + this.recipient);
-    // TODO get message from server and send to recipient
+    fetch('https://ursal.dev.org.br/api/memes/' + this.memeId + '/')
+      .then(res => res.json())
+      .then(data => {
+	window.WAPI.sendImage(data, this.recipient, 'imagename', '', console.log);
+      });
   }
 }

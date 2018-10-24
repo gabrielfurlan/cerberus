@@ -30,14 +30,14 @@ export default class App extends Component {
 
     setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
     setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
-    */
 
-    const rule = new MemeDistribution('a channel',
+    const rule = new MemeDistribution('447984452092@c.us',
 				      [],// { id: 55 }, { id: 57 } ],
 				      true,
 				      10000,
 				      1000);
     this.worker.addRule(rule);
+    */
   }
 
   componentDidMount() {
