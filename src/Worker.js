@@ -12,7 +12,7 @@ export const ACTIONS = {
  */
 
 function getNextActionWaitTime() {
-  return 1000 + Math.random() * 5000;
+  return 1000 + Math.random() * 10000;
 }
 
 /**
@@ -138,6 +138,7 @@ export default class Worker extends EventEmitter {
         await window.Store.Wap.acceptGroupInvite(groupId);
       } catch (err) {
         console.error(`Failed to join group ${groupId} with error:`, err);
+        taskDefinition.message = `Failed to join group ${groupId} with error ${err}`;
       }
 
       taskDefinition.progress += 1;

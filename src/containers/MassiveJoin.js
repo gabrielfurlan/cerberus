@@ -39,7 +39,7 @@ export default class MassiveJoin extends Component {
   };
 
   onClickRandomJoin = () => {
-    this.props.onClickRandomJoin(
+    this.props.onClickJoin(
       this.state.randomGroups.map(group => group.url),
     );
   };
@@ -96,6 +96,8 @@ export default class MassiveJoin extends Component {
             </Button>
           </div>
         </div>
+
+        <hr />
 
         <div>
           <h3 style={{textAlign: 'center'}}>Entre em grupos aleatórios</h3>
