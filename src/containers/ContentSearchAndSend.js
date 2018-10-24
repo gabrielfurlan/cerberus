@@ -243,7 +243,7 @@ export default class ContentSearchAndSend extends Component {
           </FormControl>
 
           <FormControl style={{marginRight: 15, flex: 1}}>
-            <InputLabel htmlFor="select-multiple-checkbox">Emotion</InputLabel>
+            <InputLabel htmlFor="select-multiple-checkbox">Emoção</InputLabel>
             <Select
               multiple
               value={this.state.selectedEmotions}
@@ -274,7 +274,7 @@ export default class ContentSearchAndSend extends Component {
           </FormControl>
 
           <FormControl style={{marginRight: 15, flex: 1}}>
-            <InputLabel htmlFor="select-multiple-checkbox">Theme</InputLabel>
+            <InputLabel htmlFor="select-multiple-checkbox">Tema</InputLabel>
             <Select
               multiple
               value={this.state.selectedThemes}
@@ -303,7 +303,7 @@ export default class ContentSearchAndSend extends Component {
           </FormControl>
 
           <FormControl style={{marginRight: 15, flex: 1}}>
-            <InputLabel htmlFor="select-multiple-checkbox">Type</InputLabel>
+            <InputLabel htmlFor="select-multiple-checkbox">Tipo</InputLabel>
             <Select
               multiple
               value={this.state.selectedTypes}
@@ -332,7 +332,7 @@ export default class ContentSearchAndSend extends Component {
           </FormControl>
 
           <FormControl style={{marginRight: 15, flex: 1}}>
-            <InputLabel htmlFor="select-multiple-checkbox">Content</InputLabel>
+            <InputLabel htmlFor="select-multiple-checkbox">Conteúdo</InputLabel>
             <Select
               multiple
               value={this.state.selectedContents}
@@ -363,7 +363,7 @@ export default class ContentSearchAndSend extends Component {
           </FormControl>
 
           <FormControl style={{marginRight: 15, flex: 1}}>
-            <InputLabel htmlFor="select-multiple-checkbox">Target</InputLabel>
+            <InputLabel htmlFor="select-multiple-checkbox">Público-alvo</InputLabel>
             <Select
               multiple
               value={this.state.selectedTargets}
