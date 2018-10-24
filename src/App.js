@@ -5,6 +5,7 @@ import MassiveJoin from './containers/MassiveJoin';
 import Tabs from './components/Tabs';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
+import GroupClone from './containers/GroupClone';
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -67,6 +68,17 @@ export default class App extends Component {
     });
   };
 
+  onClickClone = group => {
+    this.worker.push({
+      type: ACTIONS.CLONE_GROUP,
+      description: `Clonando grupo ${group.contact.name}`,
+      size: 1,
+      payload: {
+        group,
+      },
+    });
+  };
+
   onClickSend = message => {};
 
   render() {
@@ -124,6 +136,10 @@ export default class App extends Component {
               {
                 title: 'Ingresso Massivo em Grupos',
                 content: <MassiveJoin onClickJoin={this.onClickJoin} />,
+              },
+              {
+                title: 'Clonagem de Grupos',
+                content: <GroupClone onClickClone={this.onClickClone} />,
               },
               {
                 title: 'Configurações',
