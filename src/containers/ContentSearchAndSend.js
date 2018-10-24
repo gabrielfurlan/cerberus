@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -25,6 +26,11 @@ function compactObject(obj) {
   }, {});
 }
 
+const STAGES = {
+  SELECT_IMAGES: 'selectImages',
+  SELECT_CONTACTS: 'selectContacts',
+};
+
 export default class ContentSearchAndSend extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +46,9 @@ export default class ContentSearchAndSend extends Component {
       contacts: [],
       contactData: [],
       contactsSelected: [],
+
+      selectedMemes: [],
+      stage: STAGES.SELECT_IMAGES,
 
       selectedTags: [],
       selectedTargets: [],
@@ -116,10 +125,56 @@ export default class ContentSearchAndSend extends Component {
     });
   }
 
+  setStage(stage, resetMemes) {
+
+    const selectedMemes = resetMemes
+      ? []
+      : this.state.selectedMemes;
+
+    this.setState({
+      stage,
+      selectedMemes,
+    })
+  }
+
+  addMeme(meme) {
+    this.setState({
+      selectedMemes: [
+        ...this.state.selectedMemes,
+        meme,
+      ],
+    })
+  }
+
+  removeMeme(memeIndex) {
+    const { selectedMemes } = this.state;
+    this.setState({
+      selectedMemes: [
+        ...selectedMemes.slice(0, memeIndex),
+        ...selectedMemes.slice(memeIndex+1, selectedMemes.length),
+      ]
+    });
+  }
+
+  resetMemes() {
+    if (!confirm('Limpar seleção?')) return;
+    this.setState({
+      selectedMemes: []
+    });
+  }
+
   fetchMemes = throttle(() => {
     this.setState({
       isLoading: true,
     });
+
+    if (window.localStorage.memes) {
+      this.setState({
+        images: JSON.parse(window.localStorage.memes),
+        isLoading: false
+      });
+      return;
+    }
 
     fetch(
       `https://antifa.agency/api/memes/?${querystring.stringify(
@@ -135,6 +190,7 @@ export default class ContentSearchAndSend extends Component {
     )
       .then(res => res.json())
       .then(json => {
+        window.localStorage.memes = JSON.stringify(json);
         this.setState({
           images: json,
           isLoading: false,
@@ -161,7 +217,7 @@ export default class ContentSearchAndSend extends Component {
   render() {
     /* This is shit code, it's 4am */
 
-    if (this.state.selectedImage) {
+    if (this.state.stage === STAGES.SELECT_CONTACTS) {
       const columns = [
         {name: 'Tipo'},
         {name: 'Nome'},
@@ -176,9 +232,7 @@ export default class ContentSearchAndSend extends Component {
               variant="contained"
               color="secondary"
               onClick={() => {
-                this.setState({
-                  selectedImage: null,
-                });
+                this.setStage(STAGES.SELECT_IMAGES, true);
               }}
             >
               Cancelar
@@ -212,6 +266,44 @@ export default class ContentSearchAndSend extends Component {
 
     return (
       <div>
+        <div style={{height: 60, width: '100%', display: 'flex'}}>
+          {this.state.selectedMemes.map((meme, index) => (
+            <Card
+              key={index}
+            >
+              <img
+                src={meme.thumb_base64}
+                style={{height: 60, width: 'auto', marginLeft: 5}}
+                onClick={() => this.removeMeme(index)}
+              />
+            </Card>
+          ))}
+          {
+            this.state.selectedMemes.length > 0
+            ? (
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{marginLeft: 5}}
+                  onClick={() => this.setStage(STAGES.SELECT_CONTACTS)}
+                >
+                  Selecionar contatos
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{marginLeft: 5}}
+                  onClick={this.resetMemes.bind(this)}
+                >
+                  Limpar seleção
+                </Button>
+              </div>
+            )
+            : (<div/>)
+          }
+
+        </div>
         <div style={{marginBottom: 15, width: '100%', display: 'flex'}}>
           <FormControl style={{marginRight: 15, flex: 1}}>
             <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
@@ -400,11 +492,7 @@ export default class ContentSearchAndSend extends Component {
               return (
                 <GridListTile key={image.id} style={{textAlign: 'center'}}>
                   <CardActionArea
-                    onClick={() => {
-                      this.setState({
-                        selectedImage: image,
-                      });
-                    }}
+                    onClick={() => this.addMeme(image)}
                   >
                     <img
                       src={image.thumb_base64}

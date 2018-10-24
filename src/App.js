@@ -43,10 +43,10 @@ export default class App extends Component {
       }
       if (isEscape) {
 	this.onClickClose();
-	
+
       }
     }.bind(this);
-    
+
     /*
     this.worker.push(new SendMeme({ id: 10 }, 'bob'));
     this.worker.push(new SendMeme({ id: 13 }, 'alice'));
@@ -143,10 +143,6 @@ export default class App extends Component {
 
     const tabs = [
       {
-        title: 'Fila de execução de tarefas',
-        content: <TaskQueue workerState={this.state.workerState} />,
-      },
-      {
         title: 'Envio de Material',
         content: (
           <ContentSearchAndSend onClickSend={this.onClickMassImageSend} />
@@ -163,6 +159,10 @@ export default class App extends Component {
       {
         title: 'Exportação de dados',
         content: <DataExport />,
+      },
+      {
+        title: 'Fila de execução de tarefas',
+        content: <TaskQueue workerState={this.state.workerState} />,
       },
       // {
       //   title: 'Configurações',
