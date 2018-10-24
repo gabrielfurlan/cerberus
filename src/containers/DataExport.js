@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import download from 'downloadjs';
 
-import Button from '../components/Button';
+import Button from '@material-ui/core/Button';
 
 export default class DataExport extends Component {
   onClickExport = () => {
@@ -36,7 +36,13 @@ export default class DataExport extends Component {
 
         <hr />
 
-        <Button onClick={this.onClickExport}>Exportar dados de grupos</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.onClickExport}
+        >
+          Exportar dados de grupos
+        </Button>
       </div>
     );
   }

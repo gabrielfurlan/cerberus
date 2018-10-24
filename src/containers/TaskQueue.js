@@ -1,3 +1,7 @@
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import React, {Component} from 'react';
 
 export default class TaskQueue extends Component {
@@ -32,30 +36,37 @@ export default class TaskQueue extends Component {
     });
 
     return (
-      <div style={{display: 'flex'}}>
-        <div style={{flex: 1}}>
-          <h2>Fila de execução - {taskEls.length} tarefas na fila</h2>
-          <hr />
-          {this.props.workerState.message}
-          <hr />
-          <ul>{taskEls}</ul>
+      <div>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            Fila de execução - {taskEls.length} tarefas na fila
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            {this.props.workerState.message}
+            <ul>{taskEls}</ul>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-          <hr />
-          {runningTask && (
-            <div>
-              <h2>Tarefa em execução</h2>
-              <hr />
+        {runningTask && (
+          <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              Tarefa em execução
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
               <strong>{runningTask.type}</strong> - {runningTask.description} -{' '}
               {runningTask.progress} / {runningTask.size}
-            </div>
-          )}
-        </div>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        )}
 
-        <div style={{flex: 1}}>
-          <h2>Tarefas executadas - {doneTaskEls.length} tarefas executadas</h2>
-          <hr />
-          <ul>{doneTaskEls}</ul>
-        </div>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            Tarefas executadas - {doneTaskEls.length} tarefas executadas
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <ul>{doneTaskEls}</ul>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import Button from './Button';
+import Button from '@material-ui/core/Button';
 
 export default class Tabs extends Component {
   constructor(props) {
