@@ -15,6 +15,7 @@ import SendMeme from './tasks/SendMeme';
 import JoinChannel from './tasks/JoinChannel';
 import CloneGroup from './tasks/JoinChannel';
 import MemeDistribution from './rules/MemeDistribution';
+import localDb from './util/localDb'
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -30,6 +31,8 @@ export default class App extends Component {
       collapsed: true,
       activeTab: 0,
     };
+
+    console.log("driver local db:" + localDb.driver());
 
     this.worker = new Worker();
 
