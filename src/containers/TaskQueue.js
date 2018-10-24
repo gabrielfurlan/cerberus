@@ -12,25 +12,20 @@ export default class TaskQueue extends Component {
     }
 
     const queue = this.props.workerState.queue;
-    const tasks = this.props.workerState.tasks;
     const done = this.props.workerState.done;
 
-    const tasksToRender = queue.map(taskId => {
-      return tasks[taskId];
-    });
-
-    const taskEls = tasksToRender.map(taskDefinition => {
+    const taskEls = queue.map(task => {
       return (
-        <li key={taskDefinition.id}>
-          <strong>{taskDefinition.type}</strong> - {taskDefinition.description}
+        <li key={task.id}>
+          <strong>{task.type}</strong> - {task.description}
         </li>
       );
     });
 
-    const doneTaskEls = done.map(taskDefinition => {
+    const doneTaskEls = done.map(task => {
       return (
-        <li key={taskDefinition.id}>
-          <strong>{taskDefinition.type}</strong> - {taskDefinition.description}
+        <li key={task.id}>
+          <strong>{task.type}</strong> - {task.description}
         </li>
       );
     });

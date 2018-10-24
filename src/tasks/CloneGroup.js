@@ -1,6 +1,8 @@
 import Task from './Task';
 
 export class CloneGroup extends Task {
+  type = 'Clonar grupo'
+  
   construct(group) {
     super(`Clonando grupo ${group.contact.name}`),
     this.group = group;

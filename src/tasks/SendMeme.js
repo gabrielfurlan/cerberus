@@ -1,6 +1,8 @@
 import Task from './Task';
 
 export default class SendMeme extends Task {
+  type = 'Envio de Meme'
+  
   constructor(meme, recipient) {
     var memeId = meme.id;
     // TODO we can get thumb from base64 encoded that is inside meme

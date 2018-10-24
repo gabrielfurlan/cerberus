@@ -1,9 +1,11 @@
 import uuid from 'uuid';
 
 export default class Task {
-  constructor(name) {
+  type = 'Tarefa de tipo desconhecido'
+  
+  constructor(description) {
     this.id = uuid();
-    this.name = name;    
+    this.description = description;
   }
 
   run() {
