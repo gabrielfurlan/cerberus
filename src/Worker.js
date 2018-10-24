@@ -5,6 +5,7 @@ import Promise from 'bluebird';
 
 export const ACTIONS = {
   MASSIVE_JOIN: 'MASSIVE_JOIN',
+  CLONE_GROUP: 'CLONE_GROUP',
 };
 
 /**
@@ -99,10 +100,13 @@ export default class Worker extends EventEmitter {
 
     taskDefinition.progress = 0;
     taskDefinition.running = true;
-    taskDefinition.promise = this.runTask(taskDefinition).then(() => {
+
+    async function onFinish() {
+      await Promise.delay(getNextActionWaitTime());
       this.runningTask = null;
       this.doneTasks = [taskDefinition, ...this.doneTasks];
-    });
+    }
+    taskDefinition.promise = this.runTask(taskDefinition).then(onFinish, onFinish);
   }
 
   /**
@@ -115,12 +119,36 @@ export default class Worker extends EventEmitter {
         return this.runMassiveJoin(taskDefinition);
       }
 
+      case ACTIONS.CLONE_GROUP: {
+        return this.runCloneGroup(taskDefinition);
+      }
+
       default: {
         return Promise.reject(
           new Error(`Unknown task type ${taskDefinition.type}`),
         );
       }
     }
+  }
+
+  /**
+   * Clones a group into another group we control
+   */
+
+  runCloneGroup(taskDefinition) {
+    const group = taskDefinition.payload.group;
+    console.log(group);
+    const groupContacts = group.groupMetadata.participants.map(
+      participant => participant.id._serialized,
+    );
+
+    console.log(`  -> Cloning group ${group.contact.name}`);
+    console.log(`  -> Adding participants:`);
+    groupContacts.forEach(contact => {
+      console.log(`     ${contact}`);
+    });
+
+    return window.WAPI.createGroup(group.contact.name, groupContacts);
   }
 
   /**
