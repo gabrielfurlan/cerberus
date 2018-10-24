@@ -56,6 +56,11 @@ export default class ContentSearchAndSend extends Component {
       selectedTypes: [],
       selectedThemes: [],
       selectedEmotions: [],
+
+      sendMinutes: 30,
+      sendDelay: 0,
+      sendRandom: true,
+      sendKeep: false,
     };
   }
 
@@ -125,15 +130,9 @@ export default class ContentSearchAndSend extends Component {
     });
   }
 
-  setStage(stage, resetMemes) {
-
-    const selectedMemes = resetMemes
-      ? []
-      : this.state.selectedMemes;
-
+  setStage(stage) {
     this.setState({
       stage,
-      selectedMemes,
     })
   }
 
@@ -225,6 +224,10 @@ export default class ContentSearchAndSend extends Component {
         {name: 'DDD'},
       ];
 
+      const {
+        sendRandom, sendKeep, sendDelay, sendMinutes, contactsSelected, contactData
+      } = this.state;
+
       return (
         <div>
           <div style={{marginBottom: 15}}>
@@ -232,27 +235,111 @@ export default class ContentSearchAndSend extends Component {
               variant="contained"
               color="secondary"
               onClick={() => {
-                this.setStage(STAGES.SELECT_IMAGES, true);
+                this.setStage(STAGES.SELECT_IMAGES);
               }}
+              style={{marginRight: 20}}
             >
               Cancelar
             </Button>
 
-            <Button variant="contained" color="primary" onClick={this.onClickSend}>
+            <InputLabel
+              htmlFor="send-minutes"
+              style={{
+                fontSize: 14,
+              }}
+            >
+              Enviar a cada
+              <Input
+                id="send-minutes"
+                type="number"
+                value={sendMinutes}
+                onChange={({ target }) => this.setState({ sendMinutes: target.value })}
+                style={{
+                  width: 30,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  fontSize: 12,
+                }}
+              />
+              minutos,
+            </InputLabel>
+
+            &nbsp;&nbsp;
+
+            <InputLabel
+              htmlFor="send-minutes"
+              style={{
+                fontSize: 14,
+              }}
+            >
+              iniciando após
+              <Input
+                id="send-delay"
+                type="number"
+                value={sendDelay}
+                onChange={({ target }) => this.setState({ sendDelay: target.value })}
+                style={{
+                  width: 30,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  fontSize: 12,
+                }}
+              />
+              minutos
+            </InputLabel>
+
+            &nbsp;&nbsp;
+
+            <Checkbox
+              id="send-random"
+              checked={sendRandom}
+              onChange={() => this.setState({ sendRandom: !sendRandom })}
+            />
+            <InputLabel
+              htmlFor="send-random"
+              style={{
+                fontSize: 14,
+              }}
+            >
+              Randomizar minutos
+            </InputLabel>
+
+            <Checkbox
+              id="send-keep"
+              checked={sendKeep}
+              onChange={() => this.setState({ sendKeep: !sendKeep })}
+            />
+            <InputLabel
+              htmlFor="send-keep"
+              style={{
+                fontSize: 14,
+              }}
+            >
+              Enviar novos memes após fim do envio
+            </InputLabel>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.onClickSend}
+              style={{marginLeft: 20}}
+              disabled={!contactsSelected.length}
+            >
               Enviar
             </Button>
+
           </div>
 
           <MUIDataTable
             title="Recipientes"
             columns={columns}
-            data={this.state.contactData}
+            data={contactData}
             options={{
               filterType: 'checkbox',
               print: false,
               download: false,
               selectableRows: true,
-              rowsSelected: this.state.contactsSelected,
+              rowsSelected: contactsSelected,
               onRowsSelect: (_s, rows) => {
                 this.setState({
                   contactsSelected: rows.map(r => r.dataIndex),
@@ -278,31 +365,26 @@ export default class ContentSearchAndSend extends Component {
               />
             </Card>
           ))}
-          {
-            this.state.selectedMemes.length > 0
-            ? (
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{marginLeft: 5}}
-                  onClick={() => this.setStage(STAGES.SELECT_CONTACTS)}
-                >
-                  Selecionar contatos
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{marginLeft: 5}}
-                  onClick={this.resetMemes.bind(this)}
-                >
-                  Limpar seleção
-                </Button>
-              </div>
-            )
-            : (<div/>)
-          }
-
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{marginLeft: 5}}
+              onClick={() => this.setStage(STAGES.SELECT_CONTACTS)}
+              disabled={this.state.selectedMemes.length === 0}
+            >
+              Selecionar contatos
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{marginLeft: 5}}
+              onClick={this.resetMemes.bind(this)}
+              disabled={this.state.selectedMemes.length === 0}
+            >
+              Limpar seleção
+            </Button>
+          </div>
         </div>
         <div style={{marginBottom: 15, width: '100%', display: 'flex'}}>
           <FormControl style={{marginRight: 15, flex: 1}}>
