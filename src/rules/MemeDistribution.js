@@ -33,7 +33,7 @@ export default class MemeDistribution {
 	resolve([]);
 	return;
       }
-      this.getFromChannel().then((memes) => {
+      this.loadFromChannel().then((memes) => {
 	resolve(memes.map((meme) => new SendMeme(meme, this.recipient)));
       });
     });
@@ -51,13 +51,17 @@ export default class MemeDistribution {
   }
 
   loadFromChannel() {
-    return new Promise((resolve, reject) => {
-      $.get(ENDPOINT + 'memes/' + this.params, function(memes) {
+    return fetch('https://ursal.dev.org.br/api/memes/' + this.params)
+      .then(res => res.json())
+      .then(memes => {
 	while (memes.length > 0 && this.sent[memes[0].id]) {
 	  memes.shift();
 	}
-	resolve(len(memes) > 0 ? [ memes[0] ] : [])
+	if (memes.length == 0) {
+	  return [];
+	}
+	this.sent[memes[0].id] = true;
+	return [ memes[0] ];
       });
-    });
   }
 }

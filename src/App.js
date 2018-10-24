@@ -23,17 +23,18 @@ export default class App extends Component {
     };
 
     this.worker = new Worker();
-    console.log('push');
+    /*
     this.worker.push(new SendMeme({ id: 10 }, 'bob'));
     this.worker.push(new SendMeme({ id: 13 }, 'alice'));
     this.worker.push(new SendMeme({ id: 25 }, 'noone'));
 
     setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
     setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
+    */
 
     const rule = new MemeDistribution('a channel',
-				      [ { id: 55 }, { id: 57 } ],
-				      false,
+				      [],// { id: 55 }, { id: 57 } ],
+				      true,
 				      10000,
 				      1000);
     this.worker.addRule(rule);
