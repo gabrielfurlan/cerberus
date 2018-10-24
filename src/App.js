@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 
 import Button from './components/Button';
+import DataExport from './containers/DataExport';
+import GroupClone from './containers/GroupClone';
 import MassiveJoin from './containers/MassiveJoin';
 import Tabs from './components/Tabs';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
 import SendMeme from './tasks/SendMeme';
 import JoinChannel from './tasks/JoinChannel';
+import CloneGroup from './tasks/JoinChannel';
 import MemeDistribution from './rules/MemeDistribution';
 
 // This line executes the old jQuery application
@@ -80,6 +83,10 @@ export default class App extends Component {
     });
   };
 
+  onClickClone = group => {
+    this.worker.push(new CloneGroup(group));
+  };
+
   onClickSend = message => {};
 
   render() {
@@ -137,6 +144,14 @@ export default class App extends Component {
               {
                 title: 'Ingresso Massivo em Grupos',
                 content: <MassiveJoin onClickJoin={this.onClickJoin} />,
+              },
+              {
+                title: 'Clonagem de Grupos',
+                content: <GroupClone onClickClone={this.onClickClone} />,
+              },
+              {
+                title: 'Exportação de dados',
+                content: <DataExport />,
               },
               {
                 title: 'Configurações',
