@@ -134,7 +134,11 @@ export default class Worker extends EventEmitter {
       console.log(`  -> Joining group ${groupId}`);
       this.message = `Entrando no grupo ${groupId}`;
 
-      await window.Store.Wap.acceptGroupInvite(groupId);
+      try {
+        await window.Store.Wap.acceptGroupInvite(groupId);
+      } catch (err) {
+        console.error(`Failed to join group ${groupId} with error:`, err);
+      }
 
       taskDefinition.progress += 1;
 
