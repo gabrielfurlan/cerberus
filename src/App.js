@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 
 import Button from './components/Button';
+import DataExport from './containers/DataExport';
+import GroupClone from './containers/GroupClone';
 import MassiveJoin from './containers/MassiveJoin';
 import Tabs from './components/Tabs';
 import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
-import GroupClone from './containers/GroupClone';
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -140,6 +141,10 @@ export default class App extends Component {
               {
                 title: 'Clonagem de Grupos',
                 content: <GroupClone onClickClone={this.onClickClone} />,
+              },
+              {
+                title: 'Exportação de dados',
+                content: <DataExport />,
               },
               {
                 title: 'Configurações',
