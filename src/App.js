@@ -13,7 +13,7 @@ import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
 import SendMeme from './tasks/SendMeme';
 import JoinChannel from './tasks/JoinChannel';
-import CloneGroup from './tasks/JoinChannel';
+import CloneGroup from './tasks/CloneGroup';
 import MemeDistribution from './rules/MemeDistribution';
 import localDb from './util/localDb'
 
