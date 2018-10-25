@@ -14,8 +14,9 @@ import TaskQueue from './containers/TaskQueue';
 import Worker, {ACTIONS} from './Worker';
 import SendMeme from './tasks/SendMeme';
 import JoinChannel from './tasks/JoinChannel';
-import CloneGroup from './tasks/JoinChannel';
+import CloneGroup from './tasks/CloneGroup';
 import MemeDistribution from './rules/MemeDistribution';
+import localDb from './util/localDb';
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -36,19 +37,20 @@ export default class App extends Component {
       activeTab: 0,
     };
 
+    console.log('driver local db:' + localDb.driver());
+
     this.worker = new Worker();
 
     document.onkeydown = function(evt) {
       evt = evt || window.event;
       var isEscape = false;
-      if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
+      if ('key' in evt) {
+        isEscape = evt.key == 'Escape' || evt.key == 'Esc';
       } else {
-        isEscape = (evt.keyCode == 27);
+        isEscape = evt.keyCode == 27;
       }
       if (isEscape) {
-	this.onClickClose();
-
+        this.onClickClose();
       }
     }.bind(this);
 
@@ -106,7 +108,7 @@ export default class App extends Component {
     this.setState({
       activeTab: 0,
     });
-    groups.forEach((group) => {
+    groups.forEach(group => {
       this.worker.push(new JoinChannel(group));
     });
   };
@@ -128,13 +130,13 @@ export default class App extends Component {
     contacts.forEach((contact) => {
       const recipient = contact.id._serialized;
       const rule = new MemeDistribution(
-	recipient,
-	memes,
-	channel,
-	period,
-	randomize,
-	delay,
-	keepSending,
+      	recipient,
+      	memes,
+      	channel,
+      	period,
+      	randomize,
+      	delay,
+      	keepSending,
       );
       this.worker.addRule(rule);
     });

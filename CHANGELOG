@@ -1,2 +1,7 @@
-	0.2
+0.4
+	Novas funcionalidades como exportar dados, clonar grupo, entrar em grupos randômicos
+0.3
+	Extensão funcional com defesa habilitada	
+	Interface v1 com jquery funcionando o envio de mensagem
+0.2
 	Nao bloqueia contato que ja foi desbloqueado
