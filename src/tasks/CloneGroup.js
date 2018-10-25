@@ -1,9 +1,9 @@
 import Task from './Task';
 
-export class CloneGroup extends Task {
+export default class CloneGroup extends Task {
   type = 'Clonar grupo'
   
-  construct(group) {
+  constructor(group) {
     super(`Clonando grupo ${group.contact.name}`),
     this.group = group;
   }
@@ -13,7 +13,7 @@ export class CloneGroup extends Task {
       participant => participant.id._serialized,
     );
 
-    console.log(`  -> Cloning group ${group.contact.name}`);
+    console.log(`  -> Cloning group ${this.group.contact.name}`);
     console.log(`  -> Adding participants:`);
     groupContacts.forEach(contact => {
       console.log(`     ${contact}`);
