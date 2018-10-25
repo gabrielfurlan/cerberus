@@ -87,6 +87,14 @@ export default class ContentSearchAndSend extends Component {
   }
 
   componentDidMount() {
+    fetch('https://antifa.agency/api/collections/')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          collections: json,
+        });
+      });
+
     fetch('https://antifa.agency/api/tags/')
       .then(res => res.json())
       .then(json => {
