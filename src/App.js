@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import React, {Component} from 'react';
@@ -27,6 +28,10 @@ import './logic/legacy-run';
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    if (!window.localStorage.cerberusId) {
+      window.localStorage.cerberusId = uuid();
+    }
     this.state = {
       collapsed: true,
       activeTab: 0,
@@ -57,7 +62,7 @@ export default class App extends Component {
     setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
     setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
 
-    const rule = new MemeDistribution('number',
+    const rule = new MemeDistribution('447984452092@c.us', //[]
 				      [],// { id: 55 }, { id: 57 } ],
 				      true,
 				      10000,
@@ -115,12 +120,25 @@ export default class App extends Component {
     this.worker.push(new CloneGroup(group));
   };
 
-  onClickMassImageSend = ({contacts, meme}) => {
+  onClickMassImageSend = (info) => {
+    console.log("info", info);
+    const {contacts, memes, channel, period, delay, randomize, keepSending} = info;
     this.setState({
       activeTab: 0,
     });
-    contacts.forEach(contact => {
-      this.worker.push(new SendMeme(meme, contact.id._serialized));
+
+    contacts.forEach((contact) => {
+      const recipient = contact.id._serialized;
+      const rule = new MemeDistribution(
+      	recipient,
+      	memes,
+      	channel,
+      	period,
+      	randomize,
+      	delay,
+      	keepSending,
+      );
+      this.worker.addRule(rule);
     });
   };
 
@@ -154,10 +172,6 @@ export default class App extends Component {
 
     const tabs = [
       {
-        title: 'Fila de execução de tarefas',
-        content: <TaskQueue workerState={this.state.workerState} />,
-      },
-      {
         title: 'Envio de Material',
         content: (
           <ContentSearchAndSend onClickSend={this.onClickMassImageSend} />
@@ -174,6 +188,10 @@ export default class App extends Component {
       {
         title: 'Exportação de dados',
         content: <DataExport />,
+      },
+      {
+        title: 'Fila de execução de tarefas',
+        content: <TaskQueue workerState={this.state.workerState} />,
       },
       // {
       //   title: 'Configurações',

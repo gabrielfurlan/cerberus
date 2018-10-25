@@ -1,19 +1,35 @@
 import SendMeme from '../tasks/SendMeme';
+import querystring from 'querystring';
+
+function compactObject(obj) {
+  return Object.keys(obj || {}).reduce((memo, key) => {
+    if (obj[key] != null) {
+      memo[key] = obj[key];
+    }
+    return memo;
+  }, {});
+}
 
 export default class MemeDistribution {
-  constructor(recipient, memes, channel, period, startDelay) {
+  constructor(recipient, memes, channel, period, randomize, startDelay, keepSending) {
     this.recipient = recipient;
     this.name = 'Distribue meme para ' + recipient
     this.memes = memes || [];
-    this.channel = channel;
-    this.params = this.makeParams(channel);
     this.period = period;
+    this.randomize = randomize;
+    this.keepSending = keepSending;
+    
+    if (keepSending) {
+      this.params = this.makeParams(channel);
+    } else {
+      this.params = this.makeParams({});
+    }
     this.next = new Date().getTime() + startDelay;
     this.sent = {};
   }
   
   consumed() {
-    return this.memes.length == 0 && !this.channel;
+    return this.memes.length == 0 && !this.keepSending;
   }
 
   getTasks() {
@@ -29,7 +45,7 @@ export default class MemeDistribution {
 	resolve([ new SendMeme(this.memes.shift(), this.recipient) ]);
 	return;
       }
-      if (!this.channel) {
+      if (!this.keepSending) {
 	resolve([]);
 	return;
       }
@@ -43,11 +59,23 @@ export default class MemeDistribution {
     var now = new Date().getTime();
     var margin = this.period / 4;
     this.next = now + this.period;
-    this.next += Math.random() * margin - margin / 2;
+    if (this.randomize) {
+      this.next += Math.random() * margin - margin / 2;
+    }
   }
 
   makeParams(channel) {
-    return '?'
+    var params = '?uuid=' + window.localStorage.cerberusId;
+    if (this.keepSending) {
+      params += '&keepSending=true';
+      params += '&period=' + this.period;
+    }
+    if (channel) {
+      for (var key in channel) {
+	params += '&' + key + '=' + channel[key].join(',');
+      }
+    }
+    return this.params;
   }
 
   loadFromChannel() {
