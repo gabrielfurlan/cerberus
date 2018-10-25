@@ -56,6 +56,7 @@ export default class ContentSearchAndSend extends Component {
     super(props);
     this.state = {
       images: [],
+      collections: [],
       tags: [],
       targets: [],
       contents: [],
@@ -70,6 +71,7 @@ export default class ContentSearchAndSend extends Component {
       selectedMemes: [],
       step: STEPS.IMAGES,
 
+      selectedCollections: [],
       selectedTags: [],
       selectedTargets: [],
       selectedContents: [],
@@ -218,6 +220,7 @@ export default class ContentSearchAndSend extends Component {
     fetch(
       `https://antifa.agency/api/memes/?${querystring.stringify(
         compactObject({
+          collections: this.state.selectedCollections.join(',') || null,
           tags: this.state.selectedTags.join(',') || null,
           emotions: this.state.selectedEmotions.join(',') || null,
           themes: this.state.selectedThemes.join(',') || null,
@@ -423,8 +426,37 @@ export default class ContentSearchAndSend extends Component {
 
     return (
       <div>
-        { this.state.step }
         <div style={{marginBottom: 15, width: '100%', display: 'flex'}}>
+
+          <FormControl style={{marginRight: 15, flex: 1}}>
+            <InputLabel htmlFor="select-multiple-checkbox">Coleção</InputLabel>
+            <Select
+              multiple
+              value={this.state.selectedCollections}
+              onChange={e => {
+                this.setState(
+                  {
+                    selectedCollections: e.target.value,
+                  },
+                  () => {
+                    this.fetchMemes();
+                  },
+                );
+              }}
+              input={<Input id="select-multiple-checkbox" />}
+              renderValue={selected => selected.join(', ')}
+            >
+              {this.state.collections.map(collection => (
+                <MenuItem key={collection.id} value={collection.id}>
+                  <Checkbox
+                    checked={this.state.selectedCollections.indexOf(collection.id) > -1}
+                  />
+                  <ListItemText primary={collection.name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <FormControl style={{marginRight: 15, flex: 1}}>
             <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
             <Select
