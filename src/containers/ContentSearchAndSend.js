@@ -13,6 +13,7 @@ import MUIDataTable from 'mui-datatables';
 import MenuItem from '@material-ui/core/MenuItem';
 import React, {Component} from 'react';
 import Select from '@material-ui/core/Select';
+import Title from '../components/Title';
 import fetch from 'isomorphic-fetch';
 import querystring from 'querystring';
 import throttle from 'lodash/throttle';
@@ -26,9 +27,28 @@ function compactObject(obj) {
   }, {});
 }
 
-const STAGES = {
-  SELECT_IMAGES: 'selectImages',
-  SELECT_CONTACTS: 'selectContacts',
+const STEPS = {
+  IMAGES: 'Images',
+  CONTACTS: 'Contacts',
+  CONFIGURE: 'Configure',
+};
+
+const EXPLANATION = {
+  IMAGES_1: 'Selecione um meme',
+  IMAGES_2: 'Selecione mais memes, para serem enviados em um período de tempo determinado por você posteriormente',
+  CONTACTS_1: 'Selecione um ou mais contatos',
+  CONFIGURE_1: 'Configure acima o envio'
+}
+
+const bottomMenu = {"height":"60px","width":"100%","display":"flex","position":"fixed","zIndex":"999","bottom":"0","background":"#e8e8e8","padding":"10px","left":"0","right":"0","boxShadow":"0px -3px 3px rgba(0, 0, 0, 0.2)","boxSizing":"border-box"};
+const bottomMenuRightButton = {"position":"absolute","right":"10px"};
+const bottomMenuExplanation = {
+  color: "#565656",
+  verticalAlign: "middle",
+  padding: "0 20px",
+  lineHeight: "40px",
+  fontSize: 16,
+  color: 'purple',
 };
 
 export default class ContentSearchAndSend extends Component {
@@ -48,7 +68,7 @@ export default class ContentSearchAndSend extends Component {
       contactsSelected: [],
 
       selectedMemes: [],
-      stage: STAGES.SELECT_IMAGES,
+      step: STEPS.IMAGES,
 
       selectedTags: [],
       selectedTargets: [],
@@ -130,9 +150,9 @@ export default class ContentSearchAndSend extends Component {
     });
   }
 
-  setStage(stage) {
+  setStep(step) {
     this.setState({
-      stage,
+      step,
     })
   }
 
@@ -153,6 +173,26 @@ export default class ContentSearchAndSend extends Component {
         ...selectedMemes.slice(memeIndex+1, selectedMemes.length),
       ]
     });
+  }
+
+  getExplanation(step) {
+
+    const { selectedMemes, contactsSelected } = this.state;
+
+    if (step === STEPS.IMAGES) {
+      if (!selectedMemes.length) return EXPLANATION.IMAGES_1
+      else if (selectedMemes.length === 1) return EXPLANATION.IMAGES_2
+      else return '';
+    }
+    else if (step === STEPS.CONTACTS) {
+      if (!contactsSelected.length) return EXPLANATION.CONTACTS_1
+      else return '';
+    }
+    else if (step === STEPS.CONFIGURE) {
+      return EXPLANATION.CONFIGURE_1;
+    }
+
+    return '';
   }
 
   resetMemes() {
@@ -205,18 +245,22 @@ export default class ContentSearchAndSend extends Component {
 
     this.props.onClickSend({
       contacts: contactsToSend,
-      meme: this.state.selectedImage,
+      meme: this.state.selectedMemes,
     });
 
     this.setState({
-      selectedImage: null,
+      selectedMemes: [],
     });
   }
 
   render() {
     /* This is shit code, it's 4am */
 
-    if (this.state.stage === STAGES.SELECT_CONTACTS) {
+    const {
+      sendRandom, sendKeep, sendDelay, sendMinutes, contactsSelected, contactData
+    } = this.state;
+
+    if (this.state.step === STEPS.CONTACTS) {
       const columns = [
         {name: 'Tipo'},
         {name: 'Nome'},
@@ -224,110 +268,29 @@ export default class ContentSearchAndSend extends Component {
         {name: 'DDD'},
       ];
 
-      const {
-        sendRandom, sendKeep, sendDelay, sendMinutes, contactsSelected, contactData
-      } = this.state;
-
       return (
         <div>
-          <div style={{marginBottom: 15}}>
+          <div style={bottomMenu}>
             <Button
               variant="contained"
               color="secondary"
               onClick={() => {
-                this.setStage(STAGES.SELECT_IMAGES);
+                this.setStep(STEPS.IMAGES);
               }}
               style={{marginRight: 20}}
             >
-              Cancelar
+              ‹ Voltar
             </Button>
-
-            <InputLabel
-              htmlFor="send-minutes"
-              style={{
-                fontSize: 14,
-              }}
-            >
-              Enviar a cada
-              <Input
-                id="send-minutes"
-                type="number"
-                value={sendMinutes}
-                onChange={({ target }) => this.setState({ sendMinutes: target.value })}
-                style={{
-                  width: 30,
-                  marginLeft: 10,
-                  marginRight: 10,
-                  fontSize: 12,
-                }}
-              />
-              minutos,
-            </InputLabel>
-
-            &nbsp;&nbsp;
-
-            <InputLabel
-              htmlFor="send-minutes"
-              style={{
-                fontSize: 14,
-              }}
-            >
-              iniciando após
-              <Input
-                id="send-delay"
-                type="number"
-                value={sendDelay}
-                onChange={({ target }) => this.setState({ sendDelay: target.value })}
-                style={{
-                  width: 30,
-                  marginLeft: 10,
-                  marginRight: 10,
-                  fontSize: 12,
-                }}
-              />
-              minutos
-            </InputLabel>
-
-            &nbsp;&nbsp;
-
-            <Checkbox
-              id="send-random"
-              checked={sendRandom}
-              onChange={() => this.setState({ sendRandom: !sendRandom })}
-            />
-            <InputLabel
-              htmlFor="send-random"
-              style={{
-                fontSize: 14,
-              }}
-            >
-              Randomizar minutos
-            </InputLabel>
-
-            <Checkbox
-              id="send-keep"
-              checked={sendKeep}
-              onChange={() => this.setState({ sendKeep: !sendKeep })}
-            />
-            <InputLabel
-              htmlFor="send-keep"
-              style={{
-                fontSize: 14,
-              }}
-            >
-              Enviar novos memes após fim do envio
-            </InputLabel>
-
+            <div style={bottomMenuExplanation}>{ this.getExplanation(STEPS.CONTACTS) }</div>
             <Button
               variant="contained"
               color="primary"
-              onClick={this.onClickSend}
-              style={{marginLeft: 20}}
+              onClick={() => this.setStep(STEPS.CONFIGURE)}
+              style={bottomMenuRightButton}
               disabled={!contactsSelected.length}
             >
-              Enviar
+              Próximo passo: Configurar Envio ›
             </Button>
-
           </div>
 
           <MUIDataTable
@@ -351,41 +314,116 @@ export default class ContentSearchAndSend extends Component {
       );
     }
 
-    return (
-      <div>
-        <div style={{height: 60, width: '100%', display: 'flex'}}>
-          {this.state.selectedMemes.map((meme, index) => (
-            <Card
-              key={index}
-            >
-              <img
-                src={meme.thumb_base64}
-                style={{height: 60, width: 'auto', marginLeft: 5}}
-                onClick={() => this.removeMeme(index)}
-              />
-            </Card>
-          ))}
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{marginLeft: 5}}
-              onClick={() => this.setStage(STAGES.SELECT_CONTACTS)}
-              disabled={this.state.selectedMemes.length === 0}
-            >
-              Selecionar contatos
-            </Button>
+    else if (this.state.step === STEPS.CONFIGURE) {
+      return (
+        <div
+          style={{
+            background: 'white',
+            marginLeft: 50,
+          }}
+        >
+
+          <Title>Tempo para iniciar o envio</Title>
+          <InputLabel
+            htmlFor="send-minutes"
+          >
+            Iniciar o envio após
+            <Input
+              id="send-delay"
+              type="number"
+              value={sendDelay}
+              onChange={({ target }) => this.setState({ sendDelay: target.value })}
+              style={{
+                width: 30,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+            />
+            minutos
+          </InputLabel>
+          <br/><br/>
+
+          {
+            this.state.selectedMemes.length > 1 &&
+              <div              >
+                <Title>Tempo entre os envios</Title>
+                <InputLabel
+                  htmlFor="send-minutes"
+                >
+                  Enviar a cada
+                  <Input
+                    id="send-minutes"
+                    type="number"
+                    value={sendMinutes}
+                    onChange={({ target }) => this.setState({ sendMinutes: target.value })}
+                    style={{
+                      width: 30,
+                      marginLeft: 10,
+                      marginRight: 10,
+                    }}
+                  />
+                  minutos
+                </InputLabel>
+                <br/>
+                <Checkbox
+                  id="send-random"
+                  checked={sendRandom}
+                  onChange={() => this.setState({ sendRandom: !sendRandom })}
+                />
+                <InputLabel
+                  htmlFor="send-random"
+                >
+                  Randomizar minutos
+                </InputLabel>
+                <br/><br/>
+              </div>
+
+          }
+
+          <Title>Repetição de envio</Title>
+          <Checkbox
+            id="send-keep"
+            checked={sendKeep}
+            onChange={() => this.setState({ sendKeep: !sendKeep })}
+          />
+          <InputLabel
+            htmlFor="send-keep"
+          >
+            Enviar novos memes após fim do envio
+          </InputLabel>
+
+          <div style={bottomMenu}>
             <Button
               variant="contained"
               color="secondary"
-              style={{marginLeft: 5}}
-              onClick={this.resetMemes.bind(this)}
-              disabled={this.state.selectedMemes.length === 0}
+              onClick={() => {
+                this.setStep(STEPS.CONTACTS);
+              }}
+              style={{marginRight: 20}}
             >
-              Limpar seleção
+              ‹ Voltar
+            </Button>
+            <div style={bottomMenuExplanation}>{ this.getExplanation(STEPS.CONFIGURE) }</div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.onClickSend}
+              style={bottomMenuRightButton}
+              disabled={!contactsSelected.length}
+            >
+              Enviar &nbsp;
+              {this.state.selectedMemes.length} memes para &nbsp;
+              {this.state.contactsSelected.length} &nbsp; contatos ›
             </Button>
           </div>
+
         </div>
+      );
+    }
+
+    return (
+      <div>
+        { this.state.step }
         <div style={{marginBottom: 15, width: '100%', display: 'flex'}}>
           <FormControl style={{marginRight: 15, flex: 1}}>
             <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
@@ -564,6 +602,41 @@ export default class ContentSearchAndSend extends Component {
               ))}
             </Select>
           </FormControl>
+        </div>
+
+        <div style={bottomMenu}>
+          {/*<Button
+            variant="contained"
+            color="secondary"
+            style={{marginLeft: 5}}
+            onClick={this.resetMemes.bind(this)}
+            disabled={this.state.selectedMemes.length === 0}
+          >
+            Limpar seleção
+          </Button>*/}
+          {this.state.selectedMemes.map((meme, index) => (
+            <Card
+              key={index}
+            >
+              <img
+                src={meme.thumb_base64}
+                style={{height: 60, width: 'auto', marginLeft: 5}}
+                onClick={() => this.removeMeme(index)}
+              />
+            </Card>
+          ))}
+          <div style={bottomMenuExplanation}>{ this.getExplanation(STEPS.IMAGES) }</div>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{marginLeft: 5}}
+            onClick={() => this.setStep(STEPS.CONTACTS)}
+            disabled={this.state.selectedMemes.length === 0}
+            style={bottomMenuRightButton}
+          >
+            Próximo passo: Selecionar contatos ›
+          </Button>
+
         </div>
 
         {this.state.isLoading ? (

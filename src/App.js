@@ -55,7 +55,7 @@ export default class App extends Component {
     setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
     setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
 
-    const rule = new MemeDistribution('447984452092@c.us',
+    const rule = new MemeDistribution('447984452092@c.us', //[]
 				      [],// { id: 55 }, { id: 57 } ],
 				      true,
 				      10000,
@@ -113,13 +113,28 @@ export default class App extends Component {
     this.worker.push(new CloneGroup(group));
   };
 
-  onClickMassImageSend = ({contacts, meme}) => {
-    this.setState({
-      activeTab: 0,
-    });
-    contacts.forEach((contact) => {
-      this.worker.push(new SendMeme(meme, contact.id._serialized));
-    });
+  onClickMassImageSend = (info) => {
+    console.log("info", info);
+
+    const {contacts, meme} = info;
+    console.log("contacts", contacts);
+    console.log("meme", meme);
+    // this.setState({
+    //   activeTab: 0,
+    // });
+
+    // const rule = new MemeDistribution('447984452092@c.us', //[]
+    //           [],// { id: 55 }, { id: 57 } ],
+    //           true,
+    //           10000,
+    //           1000);
+    // this.worker.addRule(rule);
+
+
+
+    // contacts.forEach((contact) => {
+    //   this.worker.push(new SendMeme(meme, contact.id._serialized));
+    // });
   };
 
   render() {
