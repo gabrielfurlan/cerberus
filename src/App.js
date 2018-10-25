@@ -15,7 +15,7 @@ import SendMeme from './tasks/SendMeme';
 import JoinChannel from './tasks/JoinChannel';
 import CloneGroup from './tasks/CloneGroup';
 import MemeDistribution from './rules/MemeDistribution';
-import localDb from './util/localDb'
+import localDb from './util/localDb';
 
 // This line executes the old jQuery application
 import './logic/legacy-run';
@@ -32,24 +32,23 @@ export default class App extends Component {
       activeTab: 0,
     };
 
-    console.log("driver local db:" + localDb.driver());
+    console.log('driver local db:' + localDb.driver());
 
     this.worker = new Worker();
 
     document.onkeydown = function(evt) {
       evt = evt || window.event;
       var isEscape = false;
-      if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
+      if ('key' in evt) {
+        isEscape = evt.key == 'Escape' || evt.key == 'Esc';
       } else {
-        isEscape = (evt.keyCode == 27);
+        isEscape = evt.keyCode == 27;
       }
       if (isEscape) {
-	this.onClickClose();
-	
+        this.onClickClose();
       }
     }.bind(this);
-    
+
     /*
     this.worker.push(new SendMeme({ id: 10 }, 'bob'));
     this.worker.push(new SendMeme({ id: 13 }, 'alice'));
@@ -58,7 +57,7 @@ export default class App extends Component {
     setTimeout(() => { this.worker.push(new SendMeme({ id: 27 }, 'noone')) }, 7000);
     setTimeout(() => { this.worker.push(new SendMeme({ id: 29 }, 'noone')) }, 6000);
 
-    const rule = new MemeDistribution('447984452092@c.us',
+    const rule = new MemeDistribution('number',
 				      [],// { id: 55 }, { id: 57 } ],
 				      true,
 				      10000,
@@ -104,7 +103,7 @@ export default class App extends Component {
     this.setState({
       activeTab: 0,
     });
-    groups.forEach((group) => {
+    groups.forEach(group => {
       this.worker.push(new JoinChannel(group));
     });
   };
@@ -120,7 +119,7 @@ export default class App extends Component {
     this.setState({
       activeTab: 0,
     });
-    contacts.forEach((contact) => {
+    contacts.forEach(contact => {
       this.worker.push(new SendMeme(meme, contact.id._serialized));
     });
   };
