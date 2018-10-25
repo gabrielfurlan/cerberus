@@ -124,6 +124,7 @@ export default class App extends Component {
     console.log("info", info);
     const {contacts, memes, channel, period, delay, randomize, keepSending} = info;
     this.setState({
+      collapsed: true,
       activeTab: 0,
     });
 
