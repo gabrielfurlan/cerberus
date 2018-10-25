@@ -40,19 +40,24 @@ npm run watch
 
 ## Módulo Defesa
 
-* Bloqueio de númerzos internacionais, deve ser ativo no console
+* Bloqueio de números internacionais, deve ser ativo no console
 * Bloqueio de números que enviam mais de 10 mensagens em um curto espaco de tempo
 * No caso de um número bloqueado for engano, é salvo e não é mais bloqueado mesmo se mandar muitas mensagens
-* 
 
 ## Módulo Envio Mensagem
 
 * Banco de memes(imagem, videos, arquivos) Pró-Haddad
 * Envio para múltiplos contatos do meme selecionado
-
-## Qual produto queremos ter para viralizar?
-
 * Filtros avanćados por tag, emoćão, público-alvo, tema, tipo(video,image,etc)
+* Automatizar o envio de mensagens com novos memes a partir de um filtro avancado para um canal/grupo com possibilidade de configurar frequencia - 20 min
+
+## Módulo Grupos
+
 * Listar canais públicos por categoria de forma randomica
 * Entrar em canais/grupos facilmente
-* Automatizar o envio de mensagens com novos memes a partir de um filtro avancado para um canal/grupo com possibilidade de configurar frequencia - 20 min
+* Clonar grupos
+
+## Módulo Dados 
+
+* Exportar dados da minha conta
+
