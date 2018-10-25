@@ -3,6 +3,15 @@ import download from 'downloadjs';
 
 import Button from '@material-ui/core/Button';
 
+function jsonStringifyFixEmojis(s, emit_unicode) {
+   var json = JSON.stringify(s);
+   return emit_unicode ? json : json.replace(/[\u007f-\uffff]/g,
+      function(c) {
+        return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+      }
+   );
+}
+
 export default class DataExport extends Component {
   onClickExport = () => {
     console.log('Running export');
@@ -13,10 +22,10 @@ export default class DataExport extends Component {
       chat.allMessages = window.WAPI.getAllMessagesInChat(chat.id._serialized);
     });
 
-    console.log(chats);
+    // console.log(chats);
 
     download(
-      JSON.stringify(chats, null, 2),
+      jsonStringifyFixEmojis(chats, null, 2),
       `WhatsApp Chats ${new Date()}.json`,
       'text/json',
     );
