@@ -1,6 +1,15 @@
 import SendMeme from '../tasks/SendMeme';
 import querystring from 'querystring';
 
+function compactObject(obj) {
+  return Object.keys(obj || {}).reduce((memo, key) => {
+    if (obj[key] != null) {
+      memo[key] = obj[key];
+    }
+    return memo;
+  }, {});
+}
+
 export default class MemeDistribution {
   constructor(recipient, memes, channel, period, randomize, startDelay, keepSending) {
     this.recipient = recipient;
@@ -56,24 +65,17 @@ export default class MemeDistribution {
   }
 
   makeParams(channel) {
-    params = '?uuid=' + window.localStorage.cerberusId;
+    var params = '?uuid=' + window.localStorage.cerberusId;
     if (this.keepSending) {
       params += '&keepSending=true';
       params += '&period=' + this.period;
     }
     if (channel) {
-      params += '&' + querystring.stringify(
-        compactObject({
-          collections: channel.collections.join(',') || null,
-          tags: channel.tags.join(',') || null,
-          emotions: channel.emotions.join(',') || null,
-          themes: channel.themes.join(',') || null,
-          types: channel.types.join(',') || null,
-          contents: channel.contents.join(',') || null,
-          targets: channel.targets.join(',') || null,
-        })
-      );
+      for (var key in channel) {
+	params += '&' + key + '=' + channel[key].join(',');
+      }
     }
+    return this.params;
   }
 
   loadFromChannel() {

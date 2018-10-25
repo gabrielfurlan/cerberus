@@ -122,11 +122,11 @@ export default class App extends Component {
 
   onClickMassImageSend = (info) => {
     console.log("info", info);
-    const {contacts, meme, channel, period, delay, randomize, keepSending} = info;
+    const {contacts, memes, channel, period, delay, randomize, keepSending} = info;
     this.setState({
       activeTab: 0,
     });
-    return;
+
     contacts.forEach((contact) => {
       const recipient = contact.id._serialized;
       const rule = new MemeDistribution(

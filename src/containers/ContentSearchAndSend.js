@@ -267,12 +267,12 @@ export default class ContentSearchAndSend extends Component {
     
     this.props.onClickSend({
       contacts: contactsToSend,
-      meme: this.state.selectedMemes,
+      memes: this.state.selectedMemes,
       channel: channel,
-      period: this.sendMinutes * 60000,
-      delay: this.sendDelay * 60000,
-      randomize: this.sendRandom,
-      keepSending: this.sendKeep,
+      period: this.state.sendMinutes * 60000,
+      delay: this.state.sendDelay * 60000,
+      randomize: this.state.sendRandom,
+      keepSending: this.state.sendKeep,
     });
 
     this.setState({
