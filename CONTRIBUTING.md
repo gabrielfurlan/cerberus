@@ -4,9 +4,9 @@
 
 ## Introdução
 
-Olá, se está lendo esse código de conduta, é porque possui um arquivo zip chamado cerberus-v0.5.zip.
-Ele foi desenvolvido por hackers de esquerda, preocupados com as ameacas que democracia vem sofrendo.
-É uma extensão de chrome que faz envio de meme pró-haddad de maneira fácil e ágil, e tem o objetivo de espalhar uma onda de amor através de imagens e vídeos que informem as pessoas os riscos que corremos.
+Olá, se está lendo esse código de conduta, é porque você recebeu um arquivo zip chamado cerberus-v0.5.zip. 
+É uma extensão de chrome para whatsapp web que faz envio de conteúdos de maneira fácil e ágil que foi desenvolvido por hackers de esquerda, preocupados com as ameaças que democracia vem sofrendo.
+O objetivo é de espalhar uma onda de amor, respeito à diversidade e argumentos através de imagens e vídeos que informem as pessoas os riscos que corremos e que as instrumentalizem nesta reta final do 2º turno.
 
 ## Como instalar
 
@@ -18,12 +18,12 @@ Para checar o funcionamento, acesse a versão web do whatsapp, em web.whatsapp.c
 
 Após autenticar o QR Code, ficará disponível um ícone no canto inferior direito.
 
-## Seguranca
+## Segurança
 
-Os desenvolvedores que contribuíram, não querem sua identidade vazada, peco para que divulgue apenas para amigos de confianca e que usarão a extensao a favor da democracia.
+Os desenvolvedores que contribuíram, não querem sua identidade vazada. Compartilhe este zip  apenas para amigos de confiança e que usarão a extenão a favor da democracia.
 
-Evite postar em redes sociais, fóruns ou qualquer espaco público. O único modo de compartilhar é enviando para uma pessoa esse texto e o arquivo zip (não faca upload para nenhum site).
+Não poste em redes sociais, fóruns ou qualquer espaco público. O único modo de compartilhar é enviando para uma pessoa esse texto e o arquivo zip (não faca upload para nenhum site).
 
 A tecnologia criada é muito nova e precisa ficar fora do radar de outros grupos, ao menos até o fim do segundo turno.
 
-Vamos virar!
+Vamos virar! ❤️
