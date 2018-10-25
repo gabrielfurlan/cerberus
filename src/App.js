@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import React, {Component} from 'react';
@@ -26,6 +27,10 @@ import './logic/legacy-run';
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    if (!window.localStorage.cerberusId) {
+      window.localStorage.cerberusId = uuid();
+    }
     this.state = {
       collapsed: true,
       activeTab: 0,
@@ -115,26 +120,24 @@ export default class App extends Component {
 
   onClickMassImageSend = (info) => {
     console.log("info", info);
-
-    const {contacts, meme} = info;
-    console.log("contacts", contacts);
-    console.log("meme", meme);
-    // this.setState({
-    //   activeTab: 0,
-    // });
-
-    // const rule = new MemeDistribution('447984452092@c.us', //[]
-    //           [],// { id: 55 }, { id: 57 } ],
-    //           true,
-    //           10000,
-    //           1000);
-    // this.worker.addRule(rule);
-
-
-
-    // contacts.forEach((contact) => {
-    //   this.worker.push(new SendMeme(meme, contact.id._serialized));
-    // });
+    const {contacts, meme, channel, period, delay, randomize, keepSending} = info;
+    this.setState({
+      activeTab: 0,
+    });
+    return;
+    contacts.forEach((contact) => {
+      const recipient = contact.id._serialized;
+      const rule = new MemeDistribution(
+	recipient,
+	memes,
+	channel,
+	period,
+	randomize,
+	delay,
+	keepSending,
+      );
+      this.worker.addRule(rule);
+    });
   };
 
   render() {

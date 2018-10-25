@@ -217,6 +217,8 @@ export default class ContentSearchAndSend extends Component {
       isLoading: true,
     });
 
+    /*
+    // For debugging purposes 
     if (window.localStorage.memes) {
       this.setState({
         images: JSON.parse(window.localStorage.memes),
@@ -224,7 +226,7 @@ export default class ContentSearchAndSend extends Component {
       });
       return;
     }
-
+    */
     fetch(
       `https://antifa.agency/api/memes/?${querystring.stringify(
         compactObject({
@@ -240,7 +242,7 @@ export default class ContentSearchAndSend extends Component {
     )
       .then(res => res.json())
       .then(json => {
-        window.localStorage.memes = JSON.stringify(json);
+        window.localStorage.memes = JSON.stringify(json); // for debugging
         this.setState({
           images: json,
           isLoading: false,
@@ -253,10 +255,24 @@ export default class ContentSearchAndSend extends Component {
       .filter((contact, i) => {
         return this.state.contactsSelected.indexOf(i) > -1;
       });
-
+    const channel = {
+      collections: this.state.selectedCollections,
+      tags: this.state.selectedTags,
+      emotions: this.state.selectedEmotions,
+      themes: this.state.selectedThemes,
+      types: this.state.selectedTypes,
+      contents: this.state.selectedContents,
+      targets: this.state.selectedTargets,
+    }
+    
     this.props.onClickSend({
       contacts: contactsToSend,
       meme: this.state.selectedMemes,
+      channel: channel,
+      period: this.sendMinutes * 60000,
+      delay: this.sendDelay * 60000,
+      randomize: this.sendRandom,
+      keepSending: this.sendKeep,
     });
 
     this.setState({
@@ -384,7 +400,7 @@ export default class ContentSearchAndSend extends Component {
                 <InputLabel
                   htmlFor="send-random"
                 >
-                  Randomizar minutos
+              Oscilar periodo de envio aleatoreamente
                 </InputLabel>
                 <br/><br/>
               </div>
@@ -400,7 +416,8 @@ export default class ContentSearchAndSend extends Component {
           <InputLabel
             htmlFor="send-keep"
           >
-            Enviar novos memes após fim do envio
+          Enviar novos memes após fim do envio<br/>
+	  <small>(novos memes criados por coletivos ativistas serão automaticamente enviados para estes contatos, utilizando o mesmo critério de busca)</small>
           </InputLabel>
 
           <div style={bottomMenu}>
