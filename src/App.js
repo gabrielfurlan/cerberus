@@ -150,7 +150,7 @@ export default class App extends Component {
         logo = (
           <img
             src={JSON.parse(window.sessionStorage.getItem('cerberus-icons')).cerberus}
-            style={{height: '100%', width: '100%'}}
+            style={{height: '100%', width: '100%', margin: '-4px 0 0 2px'}}
           />
         );
       } catch (err) {}
