@@ -126,6 +126,15 @@ export default class App extends Component {
 
   render() {
     if (this.state.collapsed) {
+      let logo = <AddIcon />;
+      try {
+        logo = (
+          <img
+            src={JSON.parse(window.sessionStorage.getItem('cerberus-icons')).cerberus}
+            style={{height: '100%', width: '100%'}}
+          />
+        );
+      } catch (err) {}
       return (
         <Button
           onClick={this.onClickOpen}
@@ -138,7 +147,7 @@ export default class App extends Component {
             right: 5,
           }}
         >
-          <AddIcon />
+          {logo}
         </Button>
       );
     }
